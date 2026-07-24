@@ -1,0 +1,72 @@
+# Plan d'implémentation — Landing Page & Page de Connexion Multi-Tenant
+
+Ajout d'une **Landing Page SaaS moderne** et d'une **Page de Connexion complète** pour Ordena SaaS, avec résolution des problèmes de connexion via un script de seed de données de démonstration dans MongoDB.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Identifiants de démonstration créés lors du Seed DB** :
+> Une API de seed (`/api/seed`) permettra d'initialiser immédiatement des utilisateurs de test prêts à l'emploi :
+> - **Super Admin** : `admin@ordena.com` / `adminpassword123` → Redirection vers `/super-admin/dashboard`
+> - **Admin Restaurant** : `admin@bistro.com` / `bistropassword123` → Redirection vers `/admin/dashboard`
+> - **Serveur** : `serveur@bistro.com` / `serveurpassword123` → Redirection vers `/staff/server`
+> - **Cuisine** : `cuisine@bistro.com` / `cuisinepassword123` → Redirection vers `/staff/kitchen`
+
+> [!NOTE]
+> La page de connexion inclura un panneau avec des **boutons d'accès rapide en 1 clic** pour remplir instantanément les identifiants de n'importe quel rôle sans avoir à les saisir manuellement.
+
+---
+
+## Proposed Changes
+
+### 1. Landing Page Moderne (`src/app/page.tsx`)
+
+#### [MODIFY] [page.tsx](file:///d:/me/ordena-saas/src/app/page.tsx)
+- Reconstitution d'une landing page SaaS B2B haut de gamme, responsive et dynamique avec design system vert émeraude (`#059669` / `emerald-600`) :
+  - **Header / Navigation** : Logo Ordena avec badge multi-tenant, liens rapides (Fonctionnalités, Tarifs, Démos), et boutons "Se connecter" & "Essai Gratuit".
+  - **Hero Section** : Titre accrocheur, sous-titre explicatif, badges de réassurance, CTA principaux et aperçu visuel élégant de l'interface restaurant et QR code.
+  - **Avantages & Fonctionnalités clés** : Cartes épurées pour Scan QR sans app, Gestion des menus en temps réel, Kanban Cuisine/Serveur, et Dashboard Analytics.
+  - **Démo interactive des parcours par rôle** : Onglets interactifs pour visualiser ce que voit le Client, la Cuisine, le Serveur et le Manager.
+  - **Section Tarifs SaaS** : Offres Starter, Pro et Enterprise.
+  - **Footer** : Liens légaux, copyright et accès rapide aux espaces staff & administration.
+
+---
+
+### 2. Page de Connexion Authentifiée (`src/app/login/page.tsx`)
+
+#### [NEW] [page.tsx](file:///d:/me/ordena-saas/src/app/login/page.tsx)
+- Création de la route `/login` requise par NextAuth (`signIn: "/login"` dans `auth.config.ts`).
+- Formulaire de connexion sécurisé avec NextAuth `signIn("credentials", ...)`:
+  - Saisie Email + Mot de passe avec possibilité d'afficher/masquer le mot de passe.
+  - Gestion des messages d'erreur explicites (ex: "Identifiants incorrects", "Veuillez remplir tous les champs").
+  - Redirection automatique intelligente vers le bon tableau de bord selon le rôle de l'utilisateur après succès.
+  - **Section "Comptes de Démo Quick-Fill"** : 4 boutons prédéfinis (Super Admin, Admin Restaurant, Serveur, Cuisine) pour se connecter en un clic lors des tests local/dev.
+  - Bouton "Initialiser les données démo (Seed DB)" si la base de données est vide.
+
+---
+
+### 3. API de Seeding MongoDB (`src/app/api/seed/route.ts`)
+
+#### [NEW] [route.ts](file:///d:/me/ordena-saas/src/app/api/seed/route.ts)
+- Création d'une API POST/GET `/api/seed` pour peupler automatiquement la base MongoDB Atlas si aucun Super Admin n'existe :
+  - Crée le Tenant de démonstration "Le Bistro Gourmet" (logo, couleur `#059669`).
+  - Hache les mots de passe avec `bcrypt` et crée les 4 utilisateurs test (`super_admin`, `restaurant_admin`, `server`, `kitchen`).
+  - Crée 4 tables de démonstration (Table 1, Table 2, Table 3, Table VIP) avec leurs tokens QR uniques.
+  - Crée les catégories de menu ("Entrées", "Plats Principaux", "Desserts", "Boissons") et des plats exemples avec prix et disponibilités.
+
+---
+
+## Verification Plan
+
+### Automated / API Verification
+- Appeler l'API `/api/seed` via fetch pour vérifier que le tenant et les 4 comptes utilisateurs sont bien créés dans MongoDB sans erreur.
+
+### Manual Verification
+1. Visiter la landing page sur `http://localhost:3000` et tester la réactivité et les animations.
+2. Cliquer sur le bouton "Se connecter" ou naviguer sur `http://localhost:3000/login`.
+3. Utiliser les boutons Quick-Fill pour tester la connexion avec chacun des 4 rôles :
+   - Tester **Super Admin** -> vérifier redirection vers `/super-admin/dashboard`
+   - Tester **Admin Restaurant** -> vérifier redirection vers `/admin/dashboard`
+   - Tester **Serveur** -> vérifier redirection vers `/staff/floor-map` ou `/staff/server`
+   - Tester **Cuisine** -> vérifier redirection vers `/staff/kitchen`
+4. Vérifier qu'une tentative de connexion avec un mot de passe erroné affiche bien un message d'erreur rouge clair.

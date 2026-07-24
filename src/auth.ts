@@ -19,33 +19,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        await connectToDatabase();
+        try {
+          await connectToDatabase();
 
-        const user = await User.findOne({
-          email: (credentials.email as string).toLowerCase().trim(),
-        });
+          const user = await User.findOne({
+            email: (credentials.email as string).toLowerCase().trim(),
+          });
 
-        if (!user || !user.passwordHash) {
+          if (!user || !user.passwordHash) {
+            return null;
+          }
+
+          const isPasswordMatch = await bcrypt.compare(
+            credentials.password as string,
+            user.passwordHash
+          );
+
+          if (!isPasswordMatch) {
+            return null;
+          }
+
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            tenantId: user.tenantId ? user.tenantId.toString() : null,
+            activeTenantId: user.tenantId ? user.tenantId.toString() : null,
+          };
+        } catch (err) {
+          console.error("Auth authorize error:", err);
           return null;
         }
-
-        const isPasswordMatch = await bcrypt.compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-
-        if (!isPasswordMatch) {
-          return null;
-        }
-
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          tenantId: user.tenantId ? user.tenantId.toString() : null,
-          activeTenantId: user.tenantId ? user.tenantId.toString() : null,
-        };
       },
     }),
   ],
