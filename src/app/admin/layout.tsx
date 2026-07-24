@@ -41,10 +41,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           user={
             session?.user
               ? {
-                  name: session.user.name,
-                  email: session.user.email,
-                  role: session.user.role,
-                }
+                name: session.user.name,
+                email: session.user.email,
+                role: session.user.role,
+              }
               : undefined
           }
           tenantSelectorSlot={
