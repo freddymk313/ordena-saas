@@ -23,7 +23,7 @@ const adminNavItems: SidebarNavItem[] = [
   { title: "Commandes & Cuisine", href: "/staff/orders", icon: Utensils },
   { title: "Tables & QR", href: "/admin/tables", icon: QrCode },
   { title: "Additions & Factures", href: "/admin/bills", icon: DollarSign },
-  { title: "Utilisateurs & Équipe", href: "/admin/users", icon: Users },
+  { title: "Utilisateurs", href: "/admin/users", icon: Users },
   { title: "Paramètres", href: "/admin/settings", icon: Settings },
 ];
 
