@@ -12,18 +12,19 @@ import {
   Users,
   Settings,
   MapPin,
+  DollarSign,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 const adminNavItems: SidebarNavItem[] = [
   { title: "Tableau de bord", href: "/admin/dashboard", icon: LayoutDashboard },
-  { title: "Plan de salle (Staff)", href: "/staff/floor-map", icon: MapPin },
-  { title: "Gestion des Tables & QR", href: "/admin/tables", icon: QrCode },
+  // { title: "Plan de salle (Staff)", href: "/staff/floor-map", icon: MapPin },
   { title: "Menu & Catégories", href: "/admin/menu", icon: BookOpen },
   { title: "Commandes & Cuisine", href: "/staff/orders", icon: Utensils },
-  { title: "Additions & Factures", href: "/admin/bills", icon: Receipt },
+  { title: "Tables & QR", href: "/admin/tables", icon: QrCode },
+  { title: "Additions & Factures", href: "/admin/bills", icon: DollarSign },
   { title: "Utilisateurs & Équipe", href: "/admin/users", icon: Users },
-  { title: "Paramètres Établissement", href: "/admin/settings", icon: Settings },
+  { title: "Paramètres", href: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
