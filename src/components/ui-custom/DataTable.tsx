@@ -28,8 +28,6 @@ export interface DataTableProps<T> {
   emptyMessage?: string;
   className?: string;
   actions?: React.ReactNode;
-  onRowClick?: (row: T) => void;
-  keyExtractor?: (row: T) => string;
 }
 
 export function DataTable<T>({
@@ -41,8 +39,6 @@ export function DataTable<T>({
   emptyMessage = "Aucune donnée trouvée",
   className,
   actions,
-  onRowClick,
-  keyExtractor,
 }: DataTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortKey, setSortKey] = useState<string | null>(null);
@@ -231,30 +227,18 @@ export function DataTable<T>({
           </thead>
           <tbody className="divide-y divide-gray-100">
             {paginatedData.length > 0 ? (
-              paginatedData.map((row, index) => {
-                const rowKey = keyExtractor
-                  ? keyExtractor(row)
-                  : (row as Record<string, unknown>)._id
-                  ? String((row as Record<string, unknown>)._id)
-                  : String(index);
-
-                return (
-                  <tr
-                    key={rowKey}
-                    onClick={() => onRowClick && onRowClick(row)}
-                    className={cn(
-                      "hover:bg-gray-50/60 transition-colors",
-                      onRowClick && "cursor-pointer"
-                    )}
-                  >
+              paginatedData.map((row, index) => (
+                <tr
+                  key={(row as Record<string, unknown>)._id ? String((row as Record<string, unknown>)._id) : index}
+                  className="hover:bg-gray-50/60 transition-colors"
+                >
                   {columns.map((col) => (
                     <td key={col.key} className="px-4 py-3 whitespace-nowrap">
                       {col.accessor ? col.accessor(row) : String((row as Record<string, unknown>)[col.key] ?? "-")}
                     </td>
                   ))}
                 </tr>
-              );
-            })
+              ))
             ) : (
               <tr>
                 <td
