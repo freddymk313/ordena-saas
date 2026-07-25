@@ -30,26 +30,17 @@ export const Topbar: React.FC<TopbarProps> = ({
   return (
     <header
       className={cn(
-        "h-16 bg-white border-b border-gray-100 px-6 flex items-center justify-between sticky top-0 z-20 shadow-2xs",
+        "h-18 bg-white border-b border-gray-100 px-6 flex items-center justify-end sticky top-0 z-20 shadow-2xs",
         className
       )}
     >
-      {/* Left Slot: Establishment/Tenant Selector or Custom Breadcrumb */}
-      <div className="flex items-center gap-4 flex-1 min-w-0 pr-4">
-        {tenantSelectorSlot || children || (
-          <span className="text-sm font-semibold text-gray-800 tracking-tight">
-            Espace de Gestion
-          </span>
-        )}
-      </div>
-
       {/* Right Slot: Notifications & User Profile */}
       <div className="flex items-center gap-3 shrink-0">
         {/* Notification Bell */}
         <button
           onClick={onNotificationClick}
           aria-label="Notifications"
-          className="relative p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors focus:outline-hidden"
+          className="relative p-2 rounded-lg border text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors focus:outline-hidden"
         >
           <Bell className="w-5 h-5" />
           {unreadNotificationsCount > 0 && (
@@ -64,13 +55,13 @@ export const Topbar: React.FC<TopbarProps> = ({
           onClick={onUserMenuClick}
           className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-gray-50 transition-colors text-left focus:outline-hidden"
         >
-          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-semibold text-xs border border-emerald-200 shrink-0">
+          <div className="w-8.5 h-8.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-semibold text-xs shrink-0">
             {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-4 h-4" />}
           </div>
 
           {user && (
             <div className="hidden sm:flex flex-col min-w-0 pr-1">
-              <span className="text-xs font-semibold text-gray-900 truncate max-w-[130px]">
+              <span className="text-xs *font-semibold text-gray-900 truncate max-w-[130px]">
                 {user.name || "Utilisateur"}
               </span>
               <span className="text-[10px] text-gray-500 capitalize truncate max-w-[130px]">

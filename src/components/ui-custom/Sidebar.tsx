@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LucideIcon, UtensilsCrossed, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export interface SidebarNavItem {
   title: string;
@@ -40,23 +41,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
     >
       {/* Brand Header */}
-      <div className="h-16 px-6 flex items-center gap-3 border-b border-gray-100/80">
-        <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold shadow-sm shrink-0 overflow-hidden">
-          {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={logoUrl} alt={brandName} className="w-full h-full object-cover" />
-          ) : (
-            <UtensilsCrossed className="w-5 h-5 text-white" />
-          )}
-        </div>
-        <div className="flex flex-col min-w-0">
-          <span className="font-semibold text-gray-900 tracking-tight text-base truncate">
-            {brandName}
-          </span>
-          <span className="text-[11px] font-medium text-emerald-700 tracking-wider uppercase">
-            SaaS Management
-          </span>
-        </div>
+      <div className="px-3 pl-4 py-4">
+          <Image
+            src={"/logo_desk.png"}
+            width={250}
+            height={250}
+            alt="logo desktop"
+            className="w-auto h-10"
+          />
       </div>
 
       {/* Navigation Links */}
