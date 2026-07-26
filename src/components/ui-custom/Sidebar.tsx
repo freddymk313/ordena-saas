@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 mt-2.5 overflow-y-auto px-3 py-4 space-y-1">
+      <div className="flex-1 mt-2.5 overflow-y-auto px-3 py-6 space-y-1">
         {navItems.map((item) => {
           const isActive =
             pathname === item.href ||

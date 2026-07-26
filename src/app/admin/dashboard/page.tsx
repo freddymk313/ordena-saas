@@ -89,15 +89,12 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12">
       {/* Top Header & Period Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 pb-4 rounded-2xl">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-xs">
-              <Sparkles className="w-5 h-5" />
-            </div>
             <div>
               <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight">
-                Tableau de Bord Analytique
+                Analytique
               </h1>
               <p className="text-xs text-gray-500 mt-0.5">
                 Vue d&apos;ensemble du chiffre d&apos;affaires, des heures de rush et des performances du menu
@@ -107,7 +104,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Period Filter Buttons */}
-        <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl border border-gray-200">
+        <div className="flex items-center gap-2 bg-white p-1.5 rounded-lg border border-gray-200">
           {[
             { id: "today", label: "Aujourd'hui" },
             { id: "7d", label: "7 derniers jours" },
@@ -117,9 +114,9 @@ export default function AdminDashboardPage() {
             <button
               key={p.id}
               onClick={() => setPeriod(p.id as typeof period)}
-              className={`px-3.5 py-1.5 rounded-xl font-extrabold text-xs transition-all ${
+              className={`px-3.5 py-1.5 rounded-md text-xs transition-all ${
                 period === p.id
-                  ? "bg-white text-gray-900 shadow-xs border border-gray-200/80"
+                  ? "bg-gray-100 *text-gray-50 border border-gray-200/80"
                   : "text-gray-500 hover:text-gray-900"
               }`}
             >
@@ -145,7 +142,7 @@ export default function AdminDashboardPage() {
           value={loading ? "..." : `${(data?.totalRevenue || 0).toFixed(2)} €`}
           subtext={`Sur ${data?.paidBillsCount || 0} additions réglées`}
           icon={<DollarSign className="w-6 h-6 text-emerald-600" />}
-          iconBg="bg-emerald-50 text-emerald-600 border border-emerald-100"
+          iconBg="bg-emerald-50 text-emerald-600 *border border-emerald-100"
           accentColor="text-emerald-600"
         />
 
@@ -154,9 +151,9 @@ export default function AdminDashboardPage() {
           title="Panier Moyen (Ticket)"
           value={loading ? "..." : `${(data?.averageBill || 0).toFixed(2)} €`}
           subtext="Montant moyen dépensé par table"
-          icon={<Receipt className="w-6 h-6 text-purple-600" />}
-          iconBg="bg-purple-50 text-purple-600 border border-purple-100"
-          accentColor="text-purple-600"
+          icon={<Receipt className="w-6 h-6 text-emerald-600" />}
+          iconBg="bg-emerald-50 text-emerald-600 *border border-emerald-100"
+          accentColor="text-emerald-600"
         />
 
         {/* Stat 3: Nombre de Commandes */}
@@ -164,19 +161,16 @@ export default function AdminDashboardPage() {
           title="Total Commandes"
           value={loading ? "..." : `${data?.totalOrders || 0}`}
           subtext="Commandes enregistrées en salle"
-          icon={<ShoppingBag className="w-6 h-6 text-amber-600" />}
-          iconBg="bg-amber-50 text-amber-600 border border-amber-100"
-          accentColor="text-amber-600"
+          icon={<ShoppingBag className="w-6 h-6 text-emerald-600" />}
+          iconBg="bg-emerald-50 text-emerald-600 *border border-emerald-100"
+          accentColor="text-emerald-600"
         />
       </div>
 
       {/* 2. BAR CHART: HEURES DE RUSH */}
-      <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs space-y-4">
+      <div className="bg-white p-6 rounded-2xl *border border-gray-200/80 shadow-2xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-100 text-amber-600">
-              <Clock className="w-5 h-5" />
-            </div>
             <div>
               <h2 className="font-extrabold text-lg text-gray-900 tracking-tight">
                 Analyse des Heures de Rush
@@ -188,7 +182,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2 text-xs font-bold text-gray-500 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-            <Flame className="w-4 h-4 text-amber-500" />
+            <Flame className="w-4 h-4 text-emerald-500" />
             <span>Pic d&apos;affluence en ambre foncé</span>
           </div>
         </div>
@@ -228,8 +222,8 @@ export default function AdminDashboardPage() {
                         commandes: number;
                       };
                       return (
-                        <div className="bg-gray-900 text-white p-3 rounded-xl shadow-lg border border-gray-800 text-xs font-bold space-y-1">
-                          <p className="text-amber-400 font-extrabold">
+                        <div className="bg-white text-gray-100 p-3 rounded-xl shadow-lg border border-gray-800 text-xs font-bold space-y-1">
+                          <p className="text-emerald-400 font-extrabold">
                             Tranche {hourData.hour}
                           </p>
                           <p className="text-gray-200">
@@ -272,7 +266,7 @@ export default function AdminDashboardPage() {
         <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-gray-100 pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-blue-50 border border-blue-100 text-blue-600">
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
                 <Flame className="w-5 h-5" />
               </div>
               <div>
@@ -282,7 +276,6 @@ export default function AdminDashboardPage() {
                 <p className="text-xs text-gray-500">Volume de vente total sur la période</p>
               </div>
             </div>
-            <Award className="w-5 h-5 text-amber-500" />
           </div>
 
           <div className="space-y-3">
@@ -300,11 +293,11 @@ export default function AdminDashboardPage() {
                     <span
                       className={`w-7 h-7 rounded-xl flex items-center justify-center font-black text-xs shrink-0 ${
                         rank === 0
-                          ? "bg-amber-500 text-white shadow-2xs"
+                          ? "bg-emerald-500 text-white shadow-2xs"
                           : rank === 1
                           ? "bg-gray-300 text-gray-800"
                           : rank === 2
-                          ? "bg-amber-700/20 text-amber-900"
+                          ? "bg-emerald-700/20 text-emerald-900"
                           : "bg-gray-200 text-gray-600"
                       }`}
                     >
@@ -338,7 +331,7 @@ export default function AdminDashboardPage() {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-extrabold text-xs border border-amber-200">
+                    <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-extrabold text-xs *border border-emerald-200">
                       {dish.orderCount} vendu{dish.orderCount > 1 ? "s" : ""}
                     </span>
                   </div>
@@ -356,8 +349,8 @@ export default function AdminDashboardPage() {
         <div className="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-gray-100 pb-3">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-amber-50 border border-amber-100 text-amber-600">
-                <Star className="w-5 h-5 fill-amber-500" />
+              <div className="p-2 rounded-xl bg-yellow-50 text-yellow-600">
+                <Star className="w-5 h-5 fill-yellow-300" />
               </div>
               <div>
                 <h3 className="font-extrabold text-base text-gray-900">
@@ -368,7 +361,6 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
             </div>
-            <Sparkles className="w-5 h-5 text-amber-500" />
           </div>
 
           <div className="space-y-3">
@@ -386,11 +378,11 @@ export default function AdminDashboardPage() {
                     <span
                       className={`w-7 h-7 rounded-xl flex items-center justify-center font-black text-xs shrink-0 ${
                         rank === 0
-                          ? "bg-amber-500 text-white shadow-2xs"
+                          ? "bg-emerald-500 text-white shadow-2xs"
                           : rank === 1
                           ? "bg-gray-300 text-gray-800"
                           : rank === 2
-                          ? "bg-amber-700/20 text-amber-900"
+                          ? "bg-emerald-700/20 text-emerald-900"
                           : "bg-gray-200 text-gray-600"
                       }`}
                     >
@@ -424,8 +416,8 @@ export default function AdminDashboardPage() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <div className="flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-200 px-3 py-1 rounded-full font-black text-xs">
-                      <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                    <div className="flex items-center gap-1 bg-emerald-50 text-emerald-900 *border border-emerald-200 px-3 py-1 rounded-full font-black text-xs">
+                      <Star className="w-3.5 h-3.5 fill-emerald-500 text-emerald-500" />
                       <span>{dish.avgRating > 0 ? dish.avgRating.toFixed(1) : "5.0"}</span>
                     </div>
                     <span className="text-[11px] font-bold text-gray-400">
