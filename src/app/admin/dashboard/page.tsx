@@ -325,7 +325,7 @@ export default function AdminDashboardPage() {
                         {dish.name}
                       </p>
                       <p className="text-xs font-bold text-gray-500">
-                        {dish.price.toFixed(2)} €
+                        {dish.price.toFixed(2)} $
                       </p>
                     </div>
                   </div>
