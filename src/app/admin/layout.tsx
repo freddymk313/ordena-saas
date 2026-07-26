@@ -20,7 +20,7 @@ const adminNavItems: SidebarNavItem[] = [
   { title: "Tableau de bord", href: "/admin/dashboard", icon: LayoutDashboard },
   // { title: "Plan de salle (Staff)", href: "/staff/floor-map", icon: MapPin },
   { title: "Menu & Catégories", href: "/admin/menu", icon: BookOpen },
-  { title: "Commandes & Cuisine", href: "/staff/orders", icon: Utensils },
+  { title: "Commandes & Cuisine", href: "/admin/orders", icon: Utensils },
   { title: "Tables & QR", href: "/admin/tables", icon: QrCode },
   { title: "Additions & Factures", href: "/admin/bills", icon: DollarSign },
   { title: "Utilisateurs", href: "/admin/users", icon: Users },
