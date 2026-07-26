@@ -4,7 +4,7 @@ import { Bill } from "@/models/Bill";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const tableId = searchParams.get("tableId");
 
     if (!tableId) {

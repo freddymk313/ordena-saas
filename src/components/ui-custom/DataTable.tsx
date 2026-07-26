@@ -203,54 +203,101 @@ export function DataTable<T>({
         {actions && <div className="flex items-center gap-2">{actions}</div>}
       </div>
 
-      {/* Table Content */}
-      <div className="overflow-x-auto flex-1">
-        <table className="w-full text-left text-sm text-gray-700">
-          <thead className="bg-gray-50/70 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            <tr>
-              {columns.map((col) => (
-                <th key={col.key} className="px-4 py-3">
-                  {col.sortable ? (
-                    <button
-                      onClick={() => handleSort(col.key)}
-                      className="inline-flex items-center gap-1.5 hover:text-gray-900 transition-colors focus:outline-hidden group font-semibold"
-                    >
-                      <span>{col.header}</span>
-                      <ArrowUpDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600" />
-                    </button>
-                  ) : (
-                    col.header
-                  )}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {paginatedData.length > 0 ? (
-              paginatedData.map((row, index) => (
-                <tr
-                  key={(row as Record<string, unknown>)._id ? String((row as Record<string, unknown>)._id) : index}
-                  className="hover:bg-gray-50/60 transition-colors"
-                >
-                  {columns.map((col) => (
-                    <td key={col.key} className="px-4 py-3 whitespace-nowrap">
-                      {col.accessor ? col.accessor(row) : String((row as Record<string, unknown>)[col.key] ?? "-")}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ) : (
+      {/* Table Content: Mobile Cards (< sm) & Desktop Table (>= sm) */}
+      <div className="flex-1">
+        {/* Mobile Cards View */}
+        <div className="block sm:hidden divide-y divide-gray-100">
+          {paginatedData.length > 0 ? (
+            paginatedData.map((row, index) => (
+              <div
+                key={
+                  (row as Record<string, unknown>)._id
+                    ? String((row as Record<string, unknown>)._id)
+                    : index
+                }
+                className="p-4 space-y-2.5 bg-white hover:bg-gray-50/50 transition-colors"
+              >
+                {columns.map((col) => (
+                  <div
+                    key={col.key}
+                    className="flex items-center justify-between text-xs gap-3"
+                  >
+                    <span className="font-bold text-gray-400 uppercase tracking-wider text-[10px] shrink-0">
+                      {col.header}
+                    </span>
+                    <div className="text-right font-semibold text-gray-900 min-w-0 truncate">
+                      {col.accessor
+                        ? col.accessor(row)
+                        : String((row as Record<string, unknown>)[col.key] ?? "-")}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))
+          ) : (
+            <div className="p-8 text-center text-gray-400 text-xs">
+              {emptyMessage}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden sm:block overflow-x-auto">
+          <table className="w-full text-left text-sm text-gray-700">
+            <thead className="bg-gray-50/70 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
               <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-4 py-12 text-center text-gray-400 text-sm"
-                >
-                  {emptyMessage}
-                </td>
+                {columns.map((col) => (
+                  <th key={col.key} className="px-4 py-3 whitespace-nowrap">
+                    {col.sortable ? (
+                      <button
+                        onClick={() => handleSort(col.key)}
+                        className="inline-flex items-center gap-1.5 hover:text-gray-900 transition-colors focus:outline-hidden group font-semibold"
+                      >
+                        <span>{col.header}</span>
+                        <ArrowUpDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600" />
+                      </button>
+                    ) : (
+                      col.header
+                    )}
+                  </th>
+                ))}
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {paginatedData.length > 0 ? (
+                paginatedData.map((row, index) => (
+                  <tr
+                    key={
+                      (row as Record<string, unknown>)._id
+                        ? String((row as Record<string, unknown>)._id)
+                        : index
+                    }
+                    className="hover:bg-gray-50/60 transition-colors"
+                  >
+                    {columns.map((col) => (
+                      <td key={col.key} className="px-4 py-3 whitespace-nowrap">
+                        {col.accessor
+                          ? col.accessor(row)
+                          : String(
+                              (row as Record<string, unknown>)[col.key] ?? "-"
+                            )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="px-4 py-12 text-center text-gray-400 text-sm"
+                  >
+                    {emptyMessage}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination Footer */}

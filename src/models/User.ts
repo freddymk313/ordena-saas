@@ -7,6 +7,7 @@ export interface IUser extends Document {
   email: string;
   passwordHash: string;
   role: UserRole;
+  active: boolean;
   tenantId?: mongoose.Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +22,11 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: ["super_admin", "restaurant_admin", "server", "kitchen"],
       default: "restaurant_admin",
+      required: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
       required: true,
     },
     tenantId: {

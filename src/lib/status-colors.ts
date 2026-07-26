@@ -1,4 +1,4 @@
-export type StatusVariant = "order" | "bill" | "table" | "service";
+export type StatusVariant = "order" | "bill" | "table" | "service" | "user";
 
 export interface StatusConfig {
   label: string;
@@ -88,6 +88,18 @@ export const statusColors: Record<StatusVariant, Record<string, StatusConfig>> =
       label: "Traité",
       badgeClass: "bg-gray-100 text-gray-700 border-gray-200",
       dotClass: "bg-gray-400",
+    },
+  },
+  user: {
+    active: {
+      label: "Actif",
+      badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-200/80",
+      dotClass: "bg-emerald-500",
+    },
+    disabled: {
+      label: "Désactivé",
+      badgeClass: "bg-rose-50 text-rose-800 border-rose-200/80",
+      dotClass: "bg-rose-500",
     },
   },
 };

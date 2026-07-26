@@ -81,7 +81,7 @@ function LoginForm() {
         }
       }
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Login submission error:", err);
       setError("Une erreur est survenue lors de la connexion.");
       setLoading(false);
@@ -106,7 +106,8 @@ function LoginForm() {
       } else {
         setError(data.error || "Échec de l'initialisation de la base de données.");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      console.error("Seed error:", err);
       setError("Erreur de connexion au serveur pour le seed.");
     } finally {
       setSeedLoading(false);

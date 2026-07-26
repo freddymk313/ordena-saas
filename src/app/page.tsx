@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   UtensilsCrossed,
@@ -33,17 +34,13 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform">
-              <UtensilsCrossed className="w-5 h-5" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-black tracking-tight text-gray-900 leading-none">
-                Ordena<span className="text-emerald-600">SaaS</span>
-              </span>
-              <span className="text-[10px] text-gray-400 font-medium tracking-wide uppercase mt-0.5">
-                Multi-Tenant OS
-              </span>
-            </div>
+            <Image
+              src={"/logo_desk.png"}
+              width={250}
+              height={250}
+              alt="logo desktop"
+              className="w-auto h-9"
+            />
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">

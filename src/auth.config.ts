@@ -16,6 +16,11 @@ export const authConfig: NextAuthConfig = {
         return role === "super_admin";
       }
 
+      if (pathname.startsWith("/admin/orders")) {
+        if (!isLoggedIn) return false;
+        return role === "restaurant_admin" || role === "super_admin" || role === "server" || role === "kitchen";
+      }
+
       if (pathname.startsWith("/admin")) {
         if (!isLoggedIn) return false;
         return role === "restaurant_admin" || role === "super_admin";
