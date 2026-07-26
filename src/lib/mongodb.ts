@@ -1,14 +1,4 @@
 import mongoose from "mongoose";
-import dns from "dns";
-
-if (typeof window === "undefined") {
-  try {
-    dns.setDefaultResultOrder("ipv4first");
-    dns.setServers(["8.8.8.8", "1.1.1.1"]);
-  } catch (e) {
-    // Ignore DNS server override errors if restricted
-  }
-}
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/ordena";
 
