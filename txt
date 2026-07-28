@@ -70,3 +70,18 @@ Ajout d'une **Landing Page SaaS moderne** et d'une **Page de Connexion complète
    - Tester **Serveur** -> vérifier redirection vers `/staff/floor-map` ou `/staff/server`
    - Tester **Cuisine** -> vérifier redirection vers `/staff/kitchen`
 4. Vérifier qu'une tentative de connexion avec un mot de passe erroné affiche bien un message d'erreur rouge clair.
+# MongoDB Connection
+MONGODB_URI=mongodb+srv://20mm313_db_user:3QPkR4jIFYqbrBi1@cluster0.w3byejd.mongodb.net/ordena?appName=Cluster0
+
+# NextAuth / Auth.js Secrets
+NEXTAUTH_SECRET=b7d34e12a98f102c91834e5a9900f123a1b2c3d4e5f6
+AUTH_SECRET=b7d34e12a98f102c91834e5a9900f123a1b2c3d4e5f6
+
+# Application URL (en local)
+NEXTAUTH_URL=http://localhost:3000
+
+20mm313_db_user
+3QPkR4jIFYqbrBi1
+
+mongodb+srv://20mm313_db_user:3QPkR4jIFYqbrBi1@cluster0.w3byejd.mongodb.net/?appName=Cluster0
+

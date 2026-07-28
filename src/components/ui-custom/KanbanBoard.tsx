@@ -26,7 +26,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   return (
     <div
       className={cn(
-        "flex gap-4 overflow-x-auto pb-4 pt-1 items-start min-h-[550px]",
+        "flex flex-col sm:flex-row gap-4 overflow-x-auto pb-4 pt-1 items-stretch sm:items-start min-h-0 sm:min-h-[550px]",
         className
       )}
     >

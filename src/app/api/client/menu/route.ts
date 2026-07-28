@@ -5,7 +5,7 @@ import { MenuItem } from "@/models/MenuItem";
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const tenantId = searchParams.get("tenantId");
 
     if (!tenantId) {

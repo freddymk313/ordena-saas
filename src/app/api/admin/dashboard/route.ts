@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const period = searchParams.get("period") || "7d";
 
     // Date range filter

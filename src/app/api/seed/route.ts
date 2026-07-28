@@ -122,7 +122,7 @@ async function handleSeed(req: NextRequest) {
       { name: "Boissons", order: 4 },
     ];
 
-    const categoryDocs: Record<string, any> = {};
+    const categoryDocs: Record<string, { _id: unknown }> = {};
 
     for (const cat of categories) {
       let catDoc = await MenuCategory.findOne({ tenantId: tenant._id, name: cat.name });
@@ -214,9 +214,10 @@ async function handleSeed(req: NextRequest) {
         { role: "Cuisine", email: "cuisine@bistro.com", pass: "cuisinepassword123" },
       ],
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Seed API error:", error);
-    let errorMsg = error?.message || String(error);
+    const errObj = error as { name?: string; message?: string; stack?: string };
+    let errorMsg = errObj?.message || String(error);
     if (errorNameOrMsg(error).includes("MongooseServerSelectionError") || errorNameOrMsg(error).includes("whitelist") || errorNameOrMsg(error).includes("ReplicaSetNoPrimary")) {
       errorMsg = "Impossible de se connecter à MongoDB Atlas. Assurez-vous d'avoir autorisé votre adresse IP (0.0.0.0/0) dans la console MongoDB Atlas -> Network Access.";
     }
@@ -227,6 +228,7 @@ async function handleSeed(req: NextRequest) {
   }
 }
 
-function errorNameOrMsg(err: any): string {
-  return `${err?.name || ''} ${err?.message || ''} ${err?.stack || ''}`;
+function errorNameOrMsg(err: unknown): string {
+  const e = err as { name?: string; message?: string; stack?: string };
+  return `${e?.name || ''} ${e?.message || ''} ${e?.stack || ''}`;
 }

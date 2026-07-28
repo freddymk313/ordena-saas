@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const statusFilter = searchParams.get("status");
 
     const query: Record<string, unknown> = {};
