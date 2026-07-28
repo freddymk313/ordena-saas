@@ -116,23 +116,6 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-3">
-        <Link href="/" className="inline-flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform">
-            <UtensilsCrossed className="w-6 h-6" />
-          </div>
-          <span className="text-2xl font-black text-gray-900 tracking-tight">
-            Ordena<span className="text-emerald-600">SaaS</span>
-          </span>
-        </Link>
-        <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
-          Espace d&apos;Authentification Staff & Admin
-        </h2>
-        <p className="text-xs text-gray-500 max-w-xs mx-auto">
-          Accédez à la plateforme multi-tenant de gestion et de commande restaurant
-        </p>
-      </div>
-
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl px-4 sm:px-0">
         <div className="bg-white py-8 px-6 shadow-sm border border-gray-200/80 sm:rounded-2xl sm:px-10 space-y-6">
           {error && (

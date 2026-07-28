@@ -58,10 +58,6 @@ export const Topbar: React.FC<TopbarProps> = ({
             priority
           />
         </div>
-
-        <div className="hidden md:block">
-          {tenantSelectorSlot}
-        </div>
       </div>
 
       {/* Right Slot: Notifications & User Profile */}
