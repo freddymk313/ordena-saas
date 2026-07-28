@@ -415,7 +415,7 @@ export default function ClientTablePage({
               className={`relative p-3 rounded-xl transition-all active:scale-95 focus:outline-hidden ${
                 activeView === "menu"
                   ? "text-white border-gray-900 shadow-2xs"
-                  : ""
+                  : "text-white border-gray-900 shadow-2xs"
               }`}
               style={{ backgroundColor: brandColor }}
             >
@@ -442,7 +442,7 @@ export default function ClientTablePage({
               aria-label="Notifications"
               className={`relative p-2 rounded-xl border transition-all active:scale-95 focus:outline-hidden ${
                 activeView === "order_status"
-                  ? "bg-gray-900 text-white border-gray-900 shadow-2xs"
+                  ? "border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   : "border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-gray-50"
               }`}
             >
