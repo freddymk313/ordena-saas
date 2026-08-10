@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     if (!tenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        tenantId = firstTenant._id.toString();
+        tenantId = String(firstTenant._id);
       }
     }
 
@@ -43,9 +43,9 @@ export async function GET(req: NextRequest) {
       const tableStatus = tableObj && "status" in tableObj ? (tableObj.status as string) : "free";
 
       return {
-        _id: o._id.toString(),
-        tenantId: o.tenantId.toString(),
-        tableId: o.tableId ? (typeof o.tableId === "object" ? (o.tableId as { _id: { toString(): string } })._id.toString() : String(o.tableId)) : "",
+        _id: String(o._id),
+        tenantId: String(o.tenantId),
+        tableId: o.tableId ? (typeof o.tableId === "object" ? String((o.tableId as { _id: unknown })._id) : String(o.tableId)) : "",
         tableLabel,
         tableStatus,
         customerName: o.customerName || "Client Table",

@@ -46,11 +46,11 @@ export const authConfig: NextAuthConfig = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
-        token.tenantId = user.tenantId ? user.tenantId.toString() : null;
+        token.tenantId = user.tenantId ? String(user.tenantId) : null;
         token.activeTenantId = user.activeTenantId
-          ? user.activeTenantId.toString()
+          ? String(user.activeTenantId)
           : user.tenantId
-          ? user.tenantId.toString()
+          ? String(user.tenantId)
           : null;
       }
 

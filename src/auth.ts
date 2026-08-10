@@ -52,12 +52,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           return {
-            id: user._id.toString(),
+            id: String(user._id),
             name: user.name,
             email: user.email,
             role: user.role,
-            tenantId: user.tenantId ? user.tenantId.toString() : null,
-            activeTenantId: user.tenantId ? user.tenantId.toString() : null,
+            tenantId: user.tenantId ? String(user.tenantId) : null,
+            activeTenantId: user.tenantId ? String(user.tenantId) : null,
           };
         } catch (err) {
           console.error("Auth authorize error:", err);

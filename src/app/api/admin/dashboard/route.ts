@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     if (!tenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        tenantId = firstTenant._id.toString();
+        tenantId = String(firstTenant._id);
       }
     }
 
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
     const itemQuantityMap: Record<string, number> = {};
     orders.forEach((o) => {
       o.items?.forEach((item: { menuItemId?: unknown; quantity: number }) => {
-        const idStr = item.menuItemId ? item.menuItemId.toString() : null;
+        const idStr = item.menuItemId ? String(item.menuItemId) : null;
         if (idStr) {
           itemQuantityMap[idStr] = (itemQuantityMap[idStr] || 0) + (item.quantity || 1);
         }
@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
 
     const topOrderedDishes = allMenuItems
       .map((item) => {
-        const idStr = item._id.toString();
+        const idStr = String(item._id);
         return {
           _id: idStr,
           name: item.name,
@@ -117,7 +117,7 @@ export async function GET(req: NextRequest) {
     const ratingMap: Record<string, { totalScore: number; count: number }> = {};
     ratings.forEach((r) => {
       if (r.menuItemId) {
-        const idStr = r.menuItemId.toString();
+        const idStr = String(r.menuItemId);
         if (!ratingMap[idStr]) {
           ratingMap[idStr] = { totalScore: 0, count: 0 };
         }
@@ -128,7 +128,7 @@ export async function GET(req: NextRequest) {
 
     const topRatedDishes = allMenuItems
       .map((item) => {
-        const idStr = item._id.toString();
+        const idStr = String(item._id);
         const stat = ratingMap[idStr];
         const avgScore = stat && stat.count > 0 ? stat.totalScore / stat.count : 0;
         const count = stat ? stat.count : 0;
