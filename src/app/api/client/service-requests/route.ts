@@ -38,16 +38,25 @@ export async function POST(req: NextRequest) {
     // If request_bill, find or create pending Bill for table
     let bill = null;
     if (type === "request_bill") {
-      const existingBill = await Bill.findOne({
+      const billQuery: Record<string, unknown> = {
         tableId,
         status: { $in: ["pending", "bill_delivered"] },
-      });
+      };
+      if (table?.currentOrderId) {
+        billQuery.orderIds = table.currentOrderId;
+      }
+
+      const existingBill = await Bill.findOne(billQuery);
 
       if (existingBill) {
         bill = existingBill;
       } else {
-        // Find orders for this table
-        const orders = await Order.find({ tableId }).populate("items.menuItemId").lean();
+        // Find orders for this table/cycle
+        const orderQuery: Record<string, unknown> = table?.currentOrderId
+          ? { _id: table.currentOrderId }
+          : { tableId };
+
+        const orders = await Order.find(orderQuery).populate("items.menuItemId").lean();
 
         let totalAmount = 0;
         const orderIds: mongoose.Types.ObjectId[] = [];

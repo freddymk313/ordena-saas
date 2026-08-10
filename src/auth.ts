@@ -1,3 +1,10 @@
+if (!process.env.NEXTAUTH_URL || !process.env.NEXTAUTH_URL.startsWith("http")) {
+  process.env.NEXTAUTH_URL = process.env.APP_URL || "http://localhost:3000";
+}
+if (!process.env.AUTH_URL || !process.env.AUTH_URL.startsWith("http")) {
+  process.env.AUTH_URL = process.env.APP_URL || "http://localhost:3000";
+}
+
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -7,6 +14,7 @@ import { User } from "@/models/User";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  trustHost: true,
   providers: [
     Credentials({
       name: "Credentials",

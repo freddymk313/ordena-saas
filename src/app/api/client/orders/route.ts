@@ -45,13 +45,13 @@ export async function POST(req: NextRequest) {
       items,
       status: "pending",
       estimatedReadyAt,
+      ratingsSubmitted: false,
     });
 
-    // Mark table as occupied
-    if (table.status === "free") {
-      table.status = "occupied";
-      await table.save();
-    }
+    // Update table with currentOrderId and status occupied
+    table.currentOrderId = newOrder._id;
+    table.status = "occupied";
+    await table.save();
 
     return NextResponse.json(newOrder, { status: 201 });
   } catch (error) {
@@ -64,14 +64,29 @@ export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const tableId = searchParams.get("tableId");
+    const orderId = searchParams.get("orderId");
 
-    if (!tableId) {
-      return NextResponse.json({ error: "tableId est requis" }, { status: 400 });
+    if (!tableId && !orderId) {
+      return NextResponse.json({ error: "tableId ou orderId est requis" }, { status: 400 });
     }
 
     await connectToDatabase();
 
-    const orders = await Order.find({ tableId })
+    let query: Record<string, unknown> = {};
+
+    if (orderId) {
+      query = { _id: orderId };
+    } else if (tableId) {
+      const table = await Table.findById(tableId).lean();
+      if (table?.currentOrderId) {
+        query = { _id: table.currentOrderId };
+      } else {
+        // If currentOrderId is null, no active order cycle exists for this table
+        return NextResponse.json([]);
+      }
+    }
+
+    const orders = await Order.find(query)
       .sort({ createdAt: -1 })
       .populate("items.menuItemId", "name price photoUrl")
       .lean();
@@ -82,6 +97,7 @@ export async function GET(req: NextRequest) {
         tableId: o.tableId.toString(),
         customerName: o.customerName || "",
         status: o.status,
+        ratingsSubmitted: !!o.ratingsSubmitted,
         estimatedReadyAt: o.estimatedReadyAt ? new Date(o.estimatedReadyAt).toISOString() : null,
         createdAt: new Date(o.createdAt).toISOString(),
         items: o.items.map((i: PopulatedOrderItem) => {

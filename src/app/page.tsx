@@ -17,12 +17,8 @@ import {
   Zap,
   Smartphone,
   Clock,
-  Layers,
   ChevronRight,
   Building2,
-  Users,
-  Award,
-  DollarSign,
   TrendingUp,
   Check,
 } from "lucide-react";

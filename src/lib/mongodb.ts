@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/ordena";
 
-if (!MONGODB_URI) {
-  throw new Error("Veuillez définir la variable d'environnement MONGODB_URI dans .env.local");
-}
+mongoose.set("bufferCommands", false); // CRITICAL: fail fast, don't hang
 
 /**
  * Global cache pour maintenir la connexion Mongoose à travers les rechargements HMR en développement.
@@ -32,6 +30,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 3000,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {

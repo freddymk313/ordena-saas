@@ -1,7 +1,16 @@
+if (!process.env.NEXTAUTH_URL || !process.env.NEXTAUTH_URL.startsWith("http")) {
+  process.env.NEXTAUTH_URL = process.env.APP_URL || "http://localhost:3000";
+}
+if (!process.env.AUTH_URL || !process.env.AUTH_URL.startsWith("http")) {
+  process.env.AUTH_URL = process.env.APP_URL || "http://localhost:3000";
+}
+
 import type { NextAuthConfig } from "next-auth";
 import type { UserRole } from "@/models/User";
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
+  basePath: "/api/auth",
   pages: {
     signIn: "/login",
   },

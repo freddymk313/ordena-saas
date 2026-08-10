@@ -100,10 +100,10 @@ async function handleSeed(req: NextRequest) {
 
     // 4. Create Tables
     const tablesData = [
-      { label: "Table 1", qrToken: "tbl_demo_1", status: "free" },
-      { label: "Table 2", qrToken: "tbl_demo_2", status: "occupied" },
-      { label: "Table 3", qrToken: "tbl_demo_3", status: "service_requested" },
-      { label: "Table VIP 10", qrToken: "tbl_demo_10", status: "free" },
+      { label: "Table 1", qrToken: "tbl_demo_1", status: "free", currentOrderId: null },
+      { label: "Table 2", qrToken: "tbl_demo_2", status: "occupied", currentOrderId: null },
+      { label: "Table 3", qrToken: "tbl_demo_3", status: "service_requested", currentOrderId: null },
+      { label: "Table VIP 10", qrToken: "tbl_demo_10", status: "free", currentOrderId: null },
     ];
 
     for (const t of tablesData) {

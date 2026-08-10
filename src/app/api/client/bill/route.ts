@@ -1,21 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { Bill } from "@/models/Bill";
+import { Table } from "@/models/Table";
 
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
     const tableId = searchParams.get("tableId");
+    const orderId = searchParams.get("orderId");
 
-    if (!tableId) {
-      return NextResponse.json({ error: "tableId est requis" }, { status: 400 });
+    if (!tableId && !orderId) {
+      return NextResponse.json({ error: "tableId ou orderId est requis" }, { status: 400 });
     }
 
     await connectToDatabase();
 
-    const bill = await Bill.findOne({ tableId })
-      .sort({ createdAt: -1 })
-      .lean();
+    let bill = null;
+
+    if (orderId) {
+      // Find bill containing this order
+      bill = await Bill.findOne({ orderIds: orderId }).sort({ createdAt: -1 }).lean();
+    }
+
+    if (!bill && tableId) {
+      const table = await Table.findById(tableId).lean();
+      if (table?.currentOrderId) {
+        bill = await Bill.findOne({
+          tableId,
+          orderIds: table.currentOrderId,
+        })
+          .sort({ createdAt: -1 })
+          .lean();
+      } else {
+        // If currentOrderId is null, check if there is an active pending/unpaid bill for this table
+        bill = await Bill.findOne({
+          tableId,
+          status: { $in: ["pending", "bill_delivered"] },
+        })
+          .sort({ createdAt: -1 })
+          .lean();
+      }
+    }
 
     if (!bill) {
       return NextResponse.json({ bill: null, isPaid: false });

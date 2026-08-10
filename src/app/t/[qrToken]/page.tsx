@@ -144,28 +144,32 @@ export default function ClientTablePage({
   }, [qrToken]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     initSession();
   }, [initSession]);
 
   // 2. Poll Orders and Bill Status every 4 seconds
+  const tableId = table?._id;
+  const isCartEmpty = Object.keys(cart).length === 0;
+
   const fetchOrdersAndBill = useCallback(async () => {
-    if (!table?._id) return;
+    if (!tableId) return;
 
     try {
       // Fetch Orders
-      const ordersRes = await fetch(`/api/client/orders?tableId=${table._id}`);
+      const ordersRes = await fetch(`/api/client/orders?tableId=${tableId}`);
       if (ordersRes.ok) {
         const fetchedOrders: OrderData[] = await ordersRes.json();
         setOrders(fetchedOrders);
 
         // If client has active orders, switch to order_status view if currently on menu
-        if (fetchedOrders.length > 0 && activeView === "menu" && Object.keys(cart).length === 0) {
+        if (fetchedOrders.length > 0 && activeView === "menu" && isCartEmpty) {
           setActiveView("order_status");
         }
       }
 
       // Fetch Bill Status
-      const billRes = await fetch(`/api/client/bill?tableId=${table._id}`);
+      const billRes = await fetch(`/api/client/bill?tableId=${tableId}`);
       if (billRes.ok) {
         const billData = await billRes.json();
         setBill(billData.bill);
@@ -178,10 +182,11 @@ export default function ClientTablePage({
     } catch (err) {
       console.error("Polling error client:", err);
     }
-  }, [table?._id, activeView, cart]);
+  }, [tableId, activeView, isCartEmpty]);
 
   useEffect(() => {
-    if (!table?._id) return;
+    if (!tableId) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchOrdersAndBill();
 
     const interval = setInterval(() => {
@@ -189,7 +194,7 @@ export default function ClientTablePage({
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [table?._id, fetchOrdersAndBill]);
+  }, [tableId, fetchOrdersAndBill]);
 
   // Cart operations
   const updateQuantity = (menuItemId: string, delta: number) => {

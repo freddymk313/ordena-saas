@@ -10,7 +10,6 @@ import {
   BookOpen,
   Users,
   Settings,
-  DollarSign,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 

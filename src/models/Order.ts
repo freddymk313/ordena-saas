@@ -14,6 +14,7 @@ export interface IOrder extends Document {
   items: IOrderItem[];
   status: OrderStatus;
   estimatedReadyAt?: Date;
+  ratingsSubmitted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -62,6 +63,10 @@ const OrderSchema = new Schema<IOrder>(
       required: true,
     },
     estimatedReadyAt: { type: Date },
+    ratingsSubmitted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

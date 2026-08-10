@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { Rating } from "@/models/Rating";
+import { Order } from "@/models/Order";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,6 +12,18 @@ export async function POST(req: NextRequest) {
     }
 
     await connectToDatabase();
+
+    // If orderId is provided, mark order.ratingsSubmitted = true
+    if (orderId) {
+      const order = await Order.findById(orderId);
+      if (order) {
+        if (order.ratingsSubmitted) {
+          return NextResponse.json({ success: true, message: "Avis déjà soumis pour cette commande" });
+        }
+        order.ratingsSubmitted = true;
+        await order.save();
+      }
+    }
 
     const ratingDocs = ratings.map((r: { menuItemId?: string; score: number; comment?: string }) => ({
       tenantId,

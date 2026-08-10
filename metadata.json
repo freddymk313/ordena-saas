@@ -1,6 +1,6 @@
 {
   "name": "Ordena SaaS",
-  "description": "Ordena SaaS application",
+  "description": "Plateforme SaaS de commande sur table par QR Code et gestion restaurant multi-tenant",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

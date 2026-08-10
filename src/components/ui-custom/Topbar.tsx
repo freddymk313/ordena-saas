@@ -58,6 +58,10 @@ export const Topbar: React.FC<TopbarProps> = ({
             priority
           />
         </div>
+
+        {tenantSelectorSlot && (
+          <div className="hidden sm:flex items-center">{tenantSelectorSlot}</div>
+        )}
       </div>
 
       {/* Right Slot: Notifications & User Profile */}

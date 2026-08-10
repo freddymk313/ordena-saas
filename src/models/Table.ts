@@ -7,6 +7,7 @@ export interface ITable extends Document {
   label: string;
   qrToken: string;
   status: TableStatus;
+  currentOrderId?: mongoose.Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +27,11 @@ const TableSchema = new Schema<ITable>(
       enum: ["free", "occupied", "service_requested", "bill_requested"],
       default: "free",
       required: true,
+    },
+    currentOrderId: {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
+      default: null,
     },
   },
   { timestamps: true }

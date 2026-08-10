@@ -134,6 +134,7 @@ export async function POST(req: NextRequest) {
         label: table.label,
         qrToken: table.qrToken,
         status: table.status,
+        currentOrderId: table.currentOrderId ? table.currentOrderId.toString() : null,
       },
       tenant: {
         _id: tenant._id.toString(),

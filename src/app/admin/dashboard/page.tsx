@@ -18,11 +18,8 @@ import {
   Receipt,
   ShoppingBag,
   Star,
-  Award,
   Flame,
-  Clock,
   RotateCcw,
-  Sparkles,
   Utensils,
 } from "lucide-react";
 
