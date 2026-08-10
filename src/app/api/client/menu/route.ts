@@ -19,13 +19,13 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       categories: categories.map((c) => ({
-        _id: c._id.toString(),
+        _id: String(c._id),
         name: c.name,
         order: c.order,
       })),
       items: items.map((i) => ({
-        _id: i._id.toString(),
-        categoryId: i.categoryId.toString(),
+        _id: String(i._id),
+        categoryId: String(i.categoryId),
         name: i.name,
         description: i.description || "",
         price: i.price,

@@ -40,24 +40,24 @@ export async function GET() {
 
     // Combine into enhanced table status list
     const enhancedTables = tables.map((t) => {
-      const tableIdStr = t._id.toString();
+      const tableIdStr = String(t._id);
 
       const requests = pendingRequests.filter(
-        (r) => r.tableId.toString() === tableIdStr
+        (r) => String(r.tableId) === tableIdStr
       );
 
       const orders = activeOrders.filter(
-        (o) => o.tableId.toString() === tableIdStr
+        (o) => String(o.tableId) === tableIdStr
       );
 
       const bill = pendingBills.find(
-        (b) => b.tableId.toString() === tableIdStr
+        (b) => String(b.tableId) === tableIdStr
       );
 
       return {
         ...t,
         pendingRequests: requests.map((r) => ({
-          _id: r._id.toString(),
+          _id: String(r._id),
           type: r.type,
           createdAt: r.createdAt,
         })),

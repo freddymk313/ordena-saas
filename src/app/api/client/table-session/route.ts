@@ -120,8 +120,8 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = {
-      tableId: table._id.toString(),
-      tenantId: tenant._id.toString(),
+      tableId: String(table._id),
+      tenantId: String(tenant._id),
       qrToken: table.qrToken,
       tableLabel: table.label,
     };
@@ -130,14 +130,14 @@ export async function POST(req: NextRequest) {
 
     const response = NextResponse.json({
       table: {
-        _id: table._id.toString(),
+        _id: String(table._id),
         label: table.label,
         qrToken: table.qrToken,
         status: table.status,
-        currentOrderId: table.currentOrderId ? table.currentOrderId.toString() : null,
+        currentOrderId: table.currentOrderId ? String(table.currentOrderId) : null,
       },
       tenant: {
-        _id: tenant._id.toString(),
+        _id: String(tenant._id),
         name: tenant.name,
         logoUrl: tenant.logoUrl,
         brandColor: tenant.brandColor || "#059669",

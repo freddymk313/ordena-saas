@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       bill: {
-        _id: bill._id.toString(),
+        _id: String(bill._id),
         totalAmount: bill.totalAmount,
         status: bill.status,
         createdAt: new Date(bill.createdAt).toISOString(),

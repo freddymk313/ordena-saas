@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Update table with currentOrderId and status occupied
-    table.currentOrderId = newOrder._id;
+    table.currentOrderId = newOrder._id as any;
     table.status = "occupied";
     await table.save();
 
@@ -93,8 +93,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       orders.map((o) => ({
-        _id: o._id.toString(),
-        tableId: o.tableId.toString(),
+        _id: String(o._id),
+        tableId: String(o.tableId),
         customerName: o.customerName || "",
         status: o.status,
         ratingsSubmitted: !!o.ratingsSubmitted,
