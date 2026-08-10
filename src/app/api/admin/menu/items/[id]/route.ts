@@ -58,8 +58,8 @@ export async function PATCH(
     await item.save();
 
     return NextResponse.json({
-      _id: item._id.toString(),
-      categoryId: item.categoryId.toString(),
+      _id: String(item._id),
+      categoryId: String(item.categoryId),
       name: item.name,
       description: item.description,
       price: item.price,

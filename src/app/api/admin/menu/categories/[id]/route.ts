@@ -39,7 +39,7 @@ export async function PATCH(
     await category.save();
 
     return NextResponse.json({
-      _id: category._id.toString(),
+      _id: String(category._id),
       name: category.name,
       order: category.order,
     });

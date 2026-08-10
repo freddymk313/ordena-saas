@@ -20,7 +20,7 @@ export async function GET() {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -34,8 +34,8 @@ export async function GET() {
 
     return NextResponse.json(
       categories.map((c) => ({
-        _id: c._id.toString(),
-        tenantId: c.tenantId.toString(),
+        _id: String(c._id),
+        tenantId: String(c.tenantId),
         name: c.name,
         order: c.order || 0,
         createdAt: c.createdAt,
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -102,8 +102,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        _id: newCategory._id.toString(),
-        tenantId: newCategory.tenantId.toString(),
+        _id: String(newCategory._id),
+        tenantId: String(newCategory.tenantId),
         name: newCategory.name,
         order: newCategory.order,
       },

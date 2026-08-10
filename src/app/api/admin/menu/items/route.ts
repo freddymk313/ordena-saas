@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -48,8 +48,8 @@ export async function GET(req: NextRequest) {
         const categoryIdStr = catObj && "_id" in catObj ? (catObj as { _id: { toString(): string } })._id.toString() : String(i.categoryId);
 
         return {
-          _id: i._id.toString(),
-          tenantId: i.tenantId.toString(),
+          _id: String(i._id),
+          tenantId: String(i.tenantId),
           categoryId: categoryIdStr,
           categoryName,
           name: i.name,
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        _id: newItem._id.toString(),
-        tenantId: newItem.tenantId.toString(),
-        categoryId: newItem.categoryId.toString(),
+        _id: String(newItem._id),
+        tenantId: String(newItem.tenantId),
+        categoryId: String(newItem.categoryId),
         categoryName: categoryExists.name,
         name: newItem.name,
         description: newItem.description,
