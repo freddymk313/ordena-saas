@@ -17,7 +17,7 @@ export async function GET() {
     if (!tenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        tenantId = firstTenant._id.toString();
+        tenantId = String(firstTenant._id);
       }
     }
 
@@ -56,11 +56,11 @@ export async function GET() {
       const tableLabel = tableObj && "label" in tableObj ? (tableObj.label as string) : "Table ?";
 
       // Find bill for table if request_bill
-      const tableBill = bills.find((b) => b.tableId.toString() === tableIdStr);
+      const tableBill = bills.find((b) => String(b.tableId) === tableIdStr);
 
       return {
-        _id: req._id.toString(),
-        tenantId: req.tenantId.toString(),
+        _id: String(req._id),
+        tenantId: String(req.tenantId),
         tableId: tableIdStr,
         tableLabel,
         type: req.type,
@@ -68,7 +68,7 @@ export async function GET() {
         createdAt: new Date(req.createdAt).toISOString(),
         bill: tableBill
           ? {
-              _id: tableBill._id.toString(),
+              _id: String(tableBill._id),
               totalAmount: tableBill.totalAmount,
               status: tableBill.status,
             }
@@ -81,8 +81,8 @@ export async function GET() {
       const tableLabel = tableObj && "label" in tableObj ? (tableObj.label as string) : "Table ?";
 
       return {
-        _id: o._id.toString(),
-        tableId: o.tableId ? (typeof o.tableId === "object" ? (o.tableId as { _id: { toString(): string } })._id.toString() : String(o.tableId)) : "",
+        _id: String(o._id),
+        tableId: o.tableId ? (typeof o.tableId === "object" ? String((o.tableId as { _id: unknown })._id) : String(o.tableId)) : "",
         tableLabel,
         customerName: o.customerName || "Client Table",
         status: o.status,
@@ -102,7 +102,7 @@ export async function GET() {
       serviceRequests: formattedRequests,
       readyOrders: formattedReadyOrders,
       tables: tables.map((t) => ({
-        _id: t._id.toString(),
+        _id: String(t._id),
         label: t.label,
         status: t.status,
       })),

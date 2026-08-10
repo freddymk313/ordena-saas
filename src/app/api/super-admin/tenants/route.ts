@@ -44,7 +44,7 @@ export async function GET() {
     ]);
     const orderCountMap: Record<string, number> = {};
     orderAgg.forEach((item) => {
-      if (item._id) orderCountMap[item._id.toString()] = item.count;
+      if (item._id) orderCountMap[String(item._id)] = item.count;
     });
 
     // Get revenue per tenant
@@ -54,7 +54,7 @@ export async function GET() {
     ]);
     const revenueMap: Record<string, number> = {};
     revenueAgg.forEach((item) => {
-      if (item._id) revenueMap[item._id.toString()] = item.total;
+      if (item._id) revenueMap[String(item._id)] = item.total;
     });
 
     // Get restaurant_admin users for each tenant
@@ -68,13 +68,13 @@ export async function GET() {
     const adminMap: Record<string, { name: string; email: string }> = {};
     admins.forEach((u) => {
       if (u.tenantId) {
-        adminMap[u.tenantId.toString()] = { name: u.name, email: u.email };
+        adminMap[String(u.tenantId)] = { name: u.name, email: u.email };
       }
     });
 
     // Format list of tenants with additional metadata
     const formattedTenants = tenants.map((t) => {
-      const idStr = t._id.toString();
+      const idStr = String(t._id);
       return {
         _id: idStr,
         name: t.name,
@@ -165,7 +165,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       tenant: {
-        _id: newTenant._id.toString(),
+        _id: String(newTenant._id),
         name: newTenant.name,
         logoUrl: newTenant.logoUrl,
         brandColor: newTenant.brandColor,
@@ -173,7 +173,7 @@ export async function POST(req: NextRequest) {
         createdAt: newTenant.createdAt,
       },
       admin: {
-        _id: newAdmin._id.toString(),
+        _id: String(newAdmin._id),
         name: newAdmin.name,
         email: newAdmin.email,
         role: newAdmin.role,

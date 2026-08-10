@@ -33,7 +33,7 @@ export async function PATCH(
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -51,7 +51,7 @@ export async function PATCH(
     }
 
     // Security: Strict tenant isolation
-    if (targetUser.tenantId?.toString() !== queryTenantId) {
+    if (String(targetUser.tenantId) !== queryTenantId) {
       return NextResponse.json({ error: "Accès non autorisé à cet utilisateur" }, { status: 403 });
     }
 
@@ -104,12 +104,12 @@ export async function PATCH(
     await targetUser.save();
 
     return NextResponse.json({
-      _id: targetUser._id.toString(),
+      _id: String(targetUser._id),
       name: targetUser.name,
       email: targetUser.email,
       role: targetUser.role,
       active: targetUser.active,
-      tenantId: targetUser.tenantId ? targetUser.tenantId.toString() : null,
+      tenantId: targetUser.tenantId ? String(targetUser.tenantId) : null,
       updatedAt: targetUser.updatedAt,
     });
   } catch (error) {
@@ -156,7 +156,7 @@ export async function DELETE(
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -174,7 +174,7 @@ export async function DELETE(
     }
 
     // Security: Strict tenant isolation
-    if (targetUser.tenantId?.toString() !== queryTenantId) {
+    if (String(targetUser.tenantId) !== queryTenantId) {
       return NextResponse.json({ error: "Accès non autorisé à cet utilisateur" }, { status: 403 });
     }
 

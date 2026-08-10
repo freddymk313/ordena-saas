@@ -26,7 +26,7 @@ export async function GET() {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -44,12 +44,12 @@ export async function GET() {
 
     return NextResponse.json(
       users.map((u) => ({
-        _id: u._id.toString(),
+        _id: String(u._id),
         name: u.name,
         email: u.email,
         role: u.role,
         active: u.active ?? true,
-        tenantId: u.tenantId ? u.tenantId.toString() : null,
+        tenantId: u.tenantId ? String(u.tenantId) : null,
         createdAt: u.createdAt,
       }))
     );
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     if (!queryTenantId) {
       const firstTenant = await Tenant.findOne().lean();
       if (firstTenant) {
-        queryTenantId = firstTenant._id.toString();
+        queryTenantId = String(firstTenant._id);
       }
     }
 
@@ -137,12 +137,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       {
-        _id: newUser._id.toString(),
+        _id: String(newUser._id),
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
         active: newUser.active,
-        tenantId: newUser.tenantId ? newUser.tenantId.toString() : null,
+        tenantId: newUser.tenantId ? String(newUser.tenantId) : null,
         createdAt: newUser.createdAt,
       },
       { status: 201 }

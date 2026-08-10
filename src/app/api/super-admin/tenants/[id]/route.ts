@@ -42,7 +42,7 @@ export async function PATCH(
     return NextResponse.json({
       success: true,
       tenant: {
-        _id: tenant._id.toString(),
+        _id: String(tenant._id),
         name: tenant.name,
         logoUrl: tenant.logoUrl,
         brandColor: tenant.brandColor,

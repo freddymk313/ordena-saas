@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      activeTenantId: tenant._id.toString(),
+      activeTenantId: String(tenant._id),
       tenantName: tenant.name,
     });
   } catch (error) {
