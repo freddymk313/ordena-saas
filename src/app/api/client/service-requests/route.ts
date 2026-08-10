@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
         const orderIds: mongoose.Types.ObjectId[] = [];
 
         orders.forEach((o) => {
-          orderIds.push(o._id);
+          orderIds.push(o._id as unknown as mongoose.Types.ObjectId);
           o.items.forEach((item: { menuItemId?: { price?: number } | unknown; quantity: number }) => {
             const price = typeof item.menuItemId === "object" && item.menuItemId && "price" in item.menuItemId && typeof item.menuItemId.price === "number" ? item.menuItemId.price : 0;
             totalAmount += price * item.quantity;
