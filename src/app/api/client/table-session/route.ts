@@ -141,6 +141,13 @@ export async function POST(req: NextRequest) {
         name: tenant.name,
         logoUrl: tenant.logoUrl,
         brandColor: tenant.brandColor || "#059669",
+        currency: tenant.currency || "€",
+        phone: tenant.phone || "",
+        address: tenant.address || "",
+        taxRate: tenant.taxRate ?? 10,
+        enableMobileOrders: tenant.enableMobileOrders ?? true,
+        enableCallServer: tenant.enableCallServer ?? true,
+        enableSound: tenant.enableSound ?? true,
       },
       token,
     });

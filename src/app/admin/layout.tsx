@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar, { SidebarNavItem } from "@/components/ui-custom/Sidebar";
 import Topbar from "@/components/ui-custom/Topbar";
 import {
@@ -25,7 +26,17 @@ const allAdminNavItems: SidebarNavItem[] = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
+  const router = useRouter();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (
+      session?.user?.role === "restaurant_admin" &&
+      session?.user?.onboardingCompleted === false
+    ) {
+      router.replace("/onboarding");
+    }
+  }, [session, router]);
 
   const filteredNavItems = useMemo(() => {
     const role = session?.user?.role;

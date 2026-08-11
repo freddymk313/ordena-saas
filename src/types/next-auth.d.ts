@@ -7,6 +7,7 @@ declare module "next-auth" {
     role?: UserRole;
     tenantId?: string | null;
     activeTenantId?: string | null;
+    onboardingCompleted?: boolean;
   }
 
   interface Session {
@@ -15,6 +16,7 @@ declare module "next-auth" {
       role?: UserRole;
       tenantId?: string | null;
       activeTenantId?: string | null;
+      onboardingCompleted?: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -25,5 +27,6 @@ declare module "next-auth/jwt" {
     role?: UserRole;
     tenantId?: string | null;
     activeTenantId?: string | null;
+    onboardingCompleted?: boolean;
   }
 }

@@ -4,674 +4,776 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  UtensilsCrossed,
   QrCode,
-  MapPin,
-  ShieldCheck,
-  ArrowRight,
-  Sparkles,
-  ChefHat,
-  ConciergeBell,
-  BarChart3,
-  CheckCircle2,
-  Zap,
-  Smartphone,
-  Clock,
-  ChevronRight,
+  UtensilsCrossed,
+  Receipt,
   Building2,
-  TrendingUp,
+  BarChart3,
+  Star,
   Check,
+  X,
+  ArrowRight,
+  Menu,
+  ChefHat,
+  Flame,
+  LayoutDashboard,
+  Settings,
+  Users,
 } from "lucide-react";
 
 export default function LandingPage() {
-  const [activeTab, setActiveTab] = useState<"client" | "kitchen" | "server" | "admin">("client");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col selection:bg-emerald-500 selection:text-white antialiased">
-      {/* 1. Header / Navigation */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+    <div className="min-h-screen bg-[#fafafa] text-slate-900 font-sans flex flex-col selection:bg-emerald-600 selection:text-white antialiased overflow-x-hidden">
+      {/* 1. Sticky Navigation */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/80 transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3 group shrink-0">
             <Image
-              src={"/logo_desk.png"}
-              width={250}
-              height={250}
-              alt="logo desktop"
-              className="w-auto h-8 transition-transform group-hover:scale-[1.02]"
+              src="/logo_desk.png"
+              width={200}
+              height={50}
+              alt="Ordena"
+              priority
+              className="w-auto h-7 sm:h-8 transition-transform group-hover:scale-[1.02]"
             />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-            <a href="#features" className="hover:text-emerald-600 transition-colors">
+          {/* Desktop Anchor Navigation */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+            <a
+              href="#comparatif"
+              className="hover:text-emerald-600 transition-colors py-1"
+            >
+              Sans / Avec Ordena
+            </a>
+            <a
+              href="#fonctionnalites"
+              className="hover:text-emerald-600 transition-colors py-1"
+            >
               Fonctionnalités
             </a>
-            <a href="#workflows" className="hover:text-emerald-600 transition-colors">
-              Démos par Rôle
-            </a>
-            <a href="#pricing" className="hover:text-emerald-600 transition-colors">
-              Tarifs
-            </a>
-            <a href="#faq" className="hover:text-emerald-600 transition-colors">
-              FAQ
+            <a
+              href="#comment-ca-marche"
+              className="hover:text-emerald-600 transition-colors py-1"
+            >
+              Comment ça marche
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop CTAs */}
+          <div className="hidden sm:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-4 py-2 text-sm font-bold text-slate-700 hover:text-emerald-600 transition-colors"
+              className="px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-emerald-600 transition-colors"
             >
-              Se Connecter
+              Connexion
             </Link>
             <Link
-              href="/login"
-              className="px-4 py-2.5 rounded-xl text-sm font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 active:scale-95 transition-all"
+              href="/signup"
+              className="px-5 py-2.5 rounded-full text-sm font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-md shadow-emerald-600/20 active:scale-95 transition-all inline-flex items-center gap-1.5"
             >
-              Essai Gratuit 14j
+              <span>Créer mon compte</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
+
+          {/* Mobile Menu Toggle Button */}
+          <div className="flex sm:hidden items-center gap-2">
+            <Link
+              href="/signup"
+              className="px-3.5 py-2 rounded-full text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-sm"
+            >
+              Créer un compte
+            </Link>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
+              aria-label="Menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Dropdown */}
+        {mobileMenuOpen && (
+          <div className="sm:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+            <a
+              href="#comparatif"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-emerald-600"
+            >
+              Sans / Avec Ordena
+            </a>
+            <a
+              href="#fonctionnalites"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-emerald-600"
+            >
+              Fonctionnalités
+            </a>
+            <a
+              href="#comment-ca-marche"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block py-2 text-sm font-semibold text-slate-700 hover:text-emerald-600"
+            >
+              Comment ça marche
+            </a>
+            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+              >
+                Connexion
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-2.5 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow-md shadow-emerald-600/20"
+              >
+                Créer mon compte gratuitement
+              </Link>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* 2. Hero Section */}
-      <section className="relative pt-16 pb-20 md:pt-28 md:pb-32 overflow-hidden bg-gradient-to-b from-emerald-50/50 via-slate-50/80 to-slate-50">
-        {/* Glow ambient background effects */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-40 left-1/4 w-[300px] h-[300px] bg-teal-300/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-32 bg-[#fafafa]">
+        {/* Subtle grid background pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-xs font-bold mb-8 backdrop-blur-md shadow-xs animate-in fade-in slide-in-from-bottom-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-            <span>SaaS Restaurant Multi-Tenant Nouvelle Génération</span>
+          {/* Badge Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-xs font-semibold mb-6 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>La plateforme tout-en-un pour restaurants modernes</span>
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight max-w-5xl mx-auto leading-[1.1]">
-            Commande sur table par{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-              QR Code
-            </span>{" "}
-            & service ultra fluide
+          {/* Hero Title */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.12]">
+            Le service de salle qui tourne tout seul.
           </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto font-medium leading-relaxed">
-            Permettez à vos clients de commander et de régler directement depuis leur table sans télécharger d&apos;application, tout en synchronisant la cuisine et le service en temps réel.
+          {/* Hero Subtitle */}
+          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            QR code à table, commandes envoyées en cuisine en temps réel, additions réglées sans faire attendre personne. La plateforme tout-en-un pour restaurants modernes.
           </p>
 
-          {/* Action CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* Hero CTAs */}
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 max-w-md mx-auto">
             <Link
-              href="/login"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-xl shadow-emerald-600/25 active:scale-98 transition-all text-base flex items-center justify-center gap-2 group"
+              href="/signup"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/25 active:scale-95 transition-all text-center"
             >
-              <span>Accéder aux Démos (Se Connecter)</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Créer mon compte gratuitement
             </Link>
-
-            <Link
-              href="/t/tbl_demo_1"
-              target="_blank"
-              className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold bg-white text-slate-800 border border-slate-200/80 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all text-base flex items-center justify-center gap-2 shadow-xs"
+            <a
+              href="#comment-ca-marche"
+              className="w-full sm:w-auto px-7 py-4 rounded-full text-base font-semibold bg-white border border-slate-200 hover:border-slate-300 text-slate-700 hover:bg-slate-50 transition-all text-center shadow-2xs"
             >
-              <QrCode className="w-5 h-5 text-emerald-600" />
-              <span>Tester le Scan Client (Table 1)</span>
-            </Link>
+              Voir comment ça marche
+            </a>
           </div>
 
-          {/* Proof Badges */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-500">
-            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xs px-3 py-1.5 rounded-lg border border-slate-200/60 shadow-2xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Isolation Multi-Tenant Complète</span>
+          {/* Key micro-benefits */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
+            <div className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              <span>Sans engagement ni carte bancaire</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xs px-3 py-1.5 rounded-lg border border-slate-200/60 shadow-2xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Zéro App à Installer</span>
+            <div className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              <span>Prêt en 2 minutes</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xs px-3 py-1.5 rounded-lg border border-slate-200/60 shadow-2xs">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>Mise à jour ultra-rapide (Polling 4s)</span>
+            <div className="flex items-center gap-1.5">
+              <Check className="w-4 h-4 text-emerald-600" />
+              <span>Aucune application à installer pour le client</span>
             </div>
           </div>
 
-          {/* Visual Application Mockup Dashboard Showcase */}
-          <div className="mt-14 max-w-5xl mx-auto bg-slate-900 rounded-3xl p-3 sm:p-5 shadow-2xl border border-slate-800 text-left relative overflow-hidden group">
-            {/* Top Browser Bar */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 px-2">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
-                <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                <span className="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                <span className="text-xs text-slate-400 font-mono ml-2 hidden sm:inline-block">
-                  app.ordena-saas.com / bistro-gourmet
-                </span>
-              </div>
-              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                En direct
-              </span>
-            </div>
+          {/* Hero Browser Mockup — Real Ordena Dashboard UI */}
+          <div className="mt-14 sm:mt-18 max-w-5xl mx-auto text-left">
+            <div className="rounded-2xl sm:rounded-3xl bg-slate-900/5 p-2 sm:p-3 ring-1 ring-slate-900/10 shadow-2xl backdrop-blur-xs">
+              <div className="rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 overflow-hidden shadow-xs">
+                {/* Browser Top Window Bar */}
+                <div className="px-4 py-3 bg-slate-50 border-b border-slate-200/80 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 shrink-0">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]" />
+                  </div>
 
-            {/* Dashboard Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {/* Card 1: Floor Map Preview */}
-              <div className="bg-slate-800/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-700/60 space-y-3">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-200">
-                  <span className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-emerald-400" /> Plan de Salle
-                  </span>
-                  <span className="text-emerald-400 text-[11px] font-mono">4 Tables</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 bg-emerald-950/60 border border-emerald-800/80 rounded-xl text-xs">
-                    <p className="font-bold text-emerald-200">Table 1</p>
-                    <span className="text-[10px] text-emerald-400 font-semibold">Disponible</span>
+                  {/* Browser Address Bar */}
+                  <div className="flex-1 max-w-md mx-auto hidden sm:flex items-center justify-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-500 font-mono">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span>https://ordena.app/admin/dashboard</span>
                   </div>
-                  <div className="p-3 bg-blue-950/60 border border-blue-800/80 rounded-xl text-xs">
-                    <p className="font-bold text-blue-200">Table 2</p>
-                    <span className="text-[10px] text-blue-400 font-semibold">Occupée (2 plats)</span>
-                  </div>
-                  <div className="p-3 bg-amber-950/60 border border-amber-800/80 rounded-xl text-xs">
-                    <p className="font-bold text-amber-200">Table 3</p>
-                    <span className="text-[10px] text-amber-400 font-bold animate-pulse">Appel Serveur</span>
-                  </div>
-                  <div className="p-3 bg-emerald-950/60 border border-emerald-800/80 rounded-xl text-xs">
-                    <p className="font-bold text-emerald-200">Table VIP</p>
-                    <span className="text-[10px] text-emerald-400 font-semibold">Disponible</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Card 2: Kitchen KDS Preview */}
-              <div className="bg-slate-800/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-700/60 space-y-3">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-200">
-                  <span className="flex items-center gap-2">
-                    <ChefHat className="w-4 h-4 text-amber-400" /> Écran Cuisine (KDS)
-                  </span>
-                  <span className="text-amber-400 text-[11px] font-mono">2 En cours</span>
+                  <div className="text-[11px] font-bold text-slate-400 shrink-0">
+                    Live Demo
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="p-3 bg-slate-900/80 border border-slate-700 rounded-xl text-xs space-y-1">
-                    <div className="flex justify-between font-bold text-slate-200">
-                      <span>#104 - Table 2 (Marc)</span>
-                      <span className="text-amber-400 text-[11px]">En prépa</span>
+
+                {/* Dashboard Frame Content */}
+                <div className="flex bg-[#fafafa]">
+                  {/* Mockup Sidebar */}
+                  <aside className="w-48 lg:w-56 bg-white border-r border-slate-200/80 p-4 hidden md:flex flex-col justify-between shrink-0">
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-2 px-1">
+                        <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-xs">
+                          <UtensilsCrossed className="w-4 h-4" />
+                        </div>
+                        <span className="font-extrabold text-sm tracking-tight text-slate-900">Ordena</span>
+                      </div>
+
+                      <nav className="space-y-1">
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 font-bold text-xs">
+                          <LayoutDashboard className="w-4 h-4 text-emerald-600" />
+                          <span>Tableau de bord</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 font-medium text-xs hover:bg-slate-50">
+                          <UtensilsCrossed className="w-4 h-4 text-slate-400" />
+                          <span>Menu & Catégories</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 font-medium text-xs hover:bg-slate-50">
+                          <ChefHat className="w-4 h-4 text-slate-400" />
+                          <span>Commandes & Cuisine</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 font-medium text-xs hover:bg-slate-50">
+                          <QrCode className="w-4 h-4 text-slate-400" />
+                          <span>Tables & QR</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 font-medium text-xs hover:bg-slate-50">
+                          <Users className="w-4 h-4 text-slate-400" />
+                          <span>Utilisateurs</span>
+                        </div>
+                        <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 font-medium text-xs hover:bg-slate-50">
+                          <Settings className="w-4 h-4 text-slate-400" />
+                          <span>Paramètres</span>
+                        </div>
+                      </nav>
                     </div>
-                    <p className="text-[11px] text-slate-400">1x Burger Artisan, 1x Entrecôte</p>
-                  </div>
-                  <div className="p-3 bg-slate-900/80 border border-slate-700 rounded-xl text-xs space-y-1">
-                    <div className="flex justify-between font-bold text-slate-200">
-                      <span>#105 - Table 3 (Julie)</span>
-                      <span className="text-blue-400 text-[11px]">En attente</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400">2x Salade Burrata</p>
-                  </div>
-                </div>
-              </div>
 
-              {/* Card 3: Mobile Web Client Preview */}
-              <div className="bg-gradient-to-br from-emerald-900/90 to-slate-900 p-4 rounded-2xl border border-emerald-700/50 space-y-3 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-200">
-                    <span className="flex items-center gap-2 text-emerald-300">
-                      <Smartphone className="w-4 h-4" /> Client Scan QR
-                    </span>
-                    <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">
-                      Mobile Native Web
-                    </span>
-                  </div>
-                  <div className="mt-3 bg-slate-900/90 p-3 rounded-xl text-xs space-y-1.5 border border-slate-800">
-                    <p className="font-bold text-white">Le Bistro Gourmet — Table 1</p>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
-                      Scannez, commandez vos boissons et plats en 30 secondes sans attendre.
-                    </p>
-                  </div>
+                    <div className="pt-4 border-t border-slate-100 flex items-center gap-2 px-1">
+                      <div className="w-7 h-7 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">
+                        M
+                      </div>
+                      <div className="text-[11px] leading-tight">
+                        <p className="font-bold text-slate-900 truncate">Marc Dubreuil</p>
+                        <p className="text-slate-400">Admin Restaurant</p>
+                      </div>
+                    </div>
+                  </aside>
+
+                  {/* Mockup Main Dashboard Area */}
+                  <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+                    {/* Header inside mockup */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200/60">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            Espace Restaurant
+                          </span>
+                        </div>
+                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Analytique</h3>
+                        <p className="text-xs text-slate-500">Vue d&apos;ensemble du chiffre d&apos;affaires, des heures de rush et des performances</p>
+                      </div>
+
+                      {/* Timeframe selector pill */}
+                      <div className="flex items-center bg-slate-100 p-1 rounded-xl text-xs font-semibold text-slate-600 self-start sm:self-auto">
+                        <span className="px-2.5 py-1 text-slate-500">Aujourd&apos;hui</span>
+                        <span className="px-2.5 py-1 bg-white text-slate-900 rounded-lg shadow-2xs font-bold">7 derniers jours</span>
+                        <span className="px-2.5 py-1 text-slate-500 hidden sm:inline">30 jours</span>
+                      </div>
+                    </div>
+
+                    {/* 3 KPI Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+                      {/* KPI 1 */}
+                      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center justify-between text-slate-500">
+                          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Chiffre d&apos;affaires</span>
+                          <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                            <BarChart3 className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                        <p className="text-2xl sm:text-3xl font-black text-emerald-600 tracking-tight">71.50 €</p>
+                        <p className="text-[11px] text-slate-400">Sur 1 additions réglées</p>
+                      </div>
+
+                      {/* KPI 2 */}
+                      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center justify-between text-slate-500">
+                          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Panier moyen (ticket)</span>
+                          <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                            <Receipt className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                        <p className="text-2xl sm:text-3xl font-black text-emerald-600 tracking-tight">71.50 €</p>
+                        <p className="text-[11px] text-slate-400">Montant moyen dépensé par table</p>
+                      </div>
+
+                      {/* KPI 3 */}
+                      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center justify-between text-slate-500">
+                          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">Total commandes</span>
+                          <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                            <UtensilsCrossed className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+                        <p className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">1</p>
+                        <p className="text-[11px] text-slate-400">Commandes enregistrées en salle</p>
+                      </div>
+                    </div>
+
+                    {/* Chart / Rush hours section */}
+                    <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                          <h4 className="font-extrabold text-sm text-slate-900">Analyse des Heures de Rush</h4>
+                          <p className="text-xs text-slate-400">Nombre de commandes passées par tranche horaire (00h - 23h)</p>
+                        </div>
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 text-[10px] font-bold self-start sm:self-auto">
+                          <Flame className="w-3 h-3 text-amber-600" />
+                          Pic d&apos;affluence en ambre foncé
+                        </span>
+                      </div>
+
+                      {/* Bar chart mockup */}
+                      <div className="pt-2">
+                        <div className="h-28 flex items-end gap-1.5 sm:gap-2.5 border-b border-slate-100 pb-2">
+                          {[
+                            { hour: "11h", val: 15 },
+                            { hour: "12h", val: 65 },
+                            { hour: "13h", val: 95, peak: true },
+                            { hour: "14h", val: 40 },
+                            { hour: "15h", val: 10 },
+                            { hour: "18h", val: 20 },
+                            { hour: "19h", val: 75 },
+                            { hour: "20h", val: 100, peak: true },
+                            { hour: "21h", val: 80 },
+                            { hour: "22h", val: 35 },
+                          ].map((bar, i) => (
+                            <div key={i} className="flex-1 flex flex-col items-center gap-1.5 group">
+                              <div
+                                style={{ height: `${bar.val}%` }}
+                                className={`w-full rounded-t-md transition-all ${
+                                  bar.peak
+                                    ? "bg-amber-500"
+                                    : "bg-emerald-500/80 group-hover:bg-emerald-500"
+                                }`}
+                              />
+                              <span className="text-[10px] font-semibold text-slate-400">
+                                {bar.hour}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </main>
                 </div>
-                <Link
-                  href="/t/tbl_demo_1"
-                  target="_blank"
-                  className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs text-center transition-colors shadow-md flex items-center justify-center gap-1.5"
-                >
-                  <span>Tester la commande Table 1</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Bento Grid Features Section */}
-      <section id="features" className="py-24 bg-white border-t border-slate-100">
+      {/* 3. Section "Sans Ordena / Avec Ordena" (Deux colonnes) */}
+      <section id="comparatif" className="py-20 sm:py-28 bg-white border-y border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-              Architecture Moderne
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2 block">
+              Comparatif concret
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4">
-              Pensé pour fluidifier chaque minute de votre service
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Pourquoi changer maintenant ?
             </h2>
             <p className="mt-4 text-base sm:text-lg text-slate-600">
-              Des modules autonomes et interconnectés conçus pour booster votre chiffre d&apos;affaires.
+              Découvrez la différence immédiate sur votre chiffre d&apos;affaires et la fluidité de votre équipe en salle.
             </p>
           </div>
 
-          {/* Bento Grid */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Bento 1: Large Box */}
-            <div className="md:col-span-2 p-8 bg-slate-50 rounded-3xl border border-slate-200/80 hover:border-emerald-300 transition-all flex flex-col justify-between group relative overflow-hidden">
-              <div className="space-y-4 max-w-lg z-10">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
-                  <QrCode className="w-6 h-6 text-emerald-600" />
-                </div>
-                <h3 className="font-extrabold text-slate-900 text-2xl">
-                  Scan & Commande QR ultra-rapide
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Generés par table, vos QR Codes offrent un menu interactif haute définition. Les clients commandent en autonomie, choisissent leurs options de cuisson et ajoutent des compléments en quelques clics.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-slate-200/60 flex items-center gap-4 text-xs font-bold text-slate-500">
-                <span className="flex items-center gap-1.5"><Zap className="w-4 h-4 text-emerald-600" /> +30% de panier moyen</span>
-                <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-emerald-600" /> -8 min d&apos;attente</span>
-              </div>
-            </div>
-
-            {/* Bento 2: KDS Kitchen */}
-            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-200/80 hover:border-emerald-300 transition-all space-y-4 flex flex-col justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
+            {/* Colonne 1: Sans Ordena */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-slate-50 border border-slate-200/80 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
-                  <ChefHat className="w-6 h-6 text-amber-600" />
-                </div>
-                <h3 className="font-extrabold text-slate-900 text-xl">Kanban Cuisine Dedicated</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Fini le papier. Les tickets arrivent instantanément en cuisine avec les alertes de cuisson et demandes particulières.
-                </p>
-              </div>
-              <div className="p-3 bg-white rounded-xl border border-slate-200/80 text-xs font-mono text-slate-600">
-                En attente ➔ En prépa ➔ Prêt
-              </div>
-            </div>
-
-            {/* Bento 3: Floor & Waiter Call */}
-            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-200/80 hover:border-emerald-300 transition-all space-y-4 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
-                  <ConciergeBell className="w-6 h-6 text-blue-600" />
-                </div>
-                <h3 className="font-extrabold text-slate-900 text-xl">Appels & Demandes d&apos;addition</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Notifications sonores et visuelles instantanées sur la tablette serveur lors d&apos;un appel table ou d&apos;un règlement.
-                </p>
-              </div>
-              <span className="inline-block text-xs font-bold text-blue-600">
-                Réactivité accrue du personnel →
-              </span>
-            </div>
-
-            {/* Bento 4: Large Analytics Box */}
-            <div className="md:col-span-2 p-8 bg-slate-900 text-white rounded-3xl border border-slate-800 hover:border-emerald-500/50 transition-all flex flex-col justify-between relative overflow-hidden">
-              <div className="space-y-4 max-w-lg z-10">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold">
-                  <BarChart3 className="w-6 h-6" />
-                </div>
-                <h3 className="font-extrabold text-white text-2xl">
-                  Analytics & Dynamic Multi-Tenant
-                </h3>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Chaque établissement profite d&apos;une étanchéité parfaite de ses données. Suivez vos ventes globales, plats les plus rentables et heures de pointe en temps réel.
-                </p>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-4 text-xs font-bold text-emerald-400">
-                <span className="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
-                  <TrendingUp className="w-4 h-4" /> Rapport de Ventes Direct
-                </span>
-                <span className="flex items-center gap-1.5 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
-                  <ShieldCheck className="w-4 h-4" /> Sécurité des données
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Interactive Workflows Section */}
-      <section id="workflows" className="py-24 bg-slate-100/60 border-t border-b border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-              Parcours par Métier
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4">
-              Chaque acteur a son interface sur mesure
-            </h2>
-            <p className="text-slate-600 mt-2 text-base">
-              Sélectionnez un rôle pour explorer l&apos;ergonomie dédiée de la plateforme.
-            </p>
-          </div>
-
-          {/* Workflow Pill Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-10 bg-slate-200/70 p-1.5 rounded-2xl max-w-fit mx-auto border border-slate-300/50">
-            <button
-              onClick={() => setActiveTab("client")}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "client"
-                  ? "bg-white text-emerald-700 shadow-md"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Smartphone className="w-4 h-4" /> Client (Scan QR)
-            </button>
-
-            <button
-              onClick={() => setActiveTab("server")}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "server"
-                  ? "bg-white text-emerald-700 shadow-md"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <ConciergeBell className="w-4 h-4" /> Serveur (Salle)
-            </button>
-
-            <button
-              onClick={() => setActiveTab("kitchen")}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "kitchen"
-                  ? "bg-white text-emerald-700 shadow-md"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <ChefHat className="w-4 h-4" /> Cuisine (Kanban)
-            </button>
-
-            <button
-              onClick={() => setActiveTab("admin")}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "admin"
-                  ? "bg-white text-emerald-700 shadow-md"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Building2 className="w-4 h-4" /> Manager / Admin
-            </button>
-          </div>
-
-          {/* Tab Content Display */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-xl max-w-4xl mx-auto">
-            {activeTab === "client" && (
-              <div className="space-y-6 animate-in fade-in">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <h3 className="font-extrabold text-xl text-slate-900 flex items-center gap-2">
-                    <Smartphone className="w-5 h-5 text-emerald-600" /> Parcours Client sur Table
-                  </h3>
-                  <Link
-                    href="/t/tbl_demo_1"
-                    target="_blank"
-                    className="text-xs font-bold text-emerald-600 hover:underline flex items-center gap-1"
-                  >
-                    Ouvrir l&apos;écran client réel →
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">
-                      1
-                    </div>
-                    <h4 className="font-bold text-slate-900 text-sm">Scan du Chevalet</h4>
-                    <p className="text-slate-500 leading-relaxed">
-                      Le client scanne le QR code présent sur la table sans aucune installation d&apos;application.
-                    </p>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+                    <X className="w-4 h-4 stroke-[3]" />
                   </div>
-                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">
-                      2
+                  <h3 className="text-xl font-extrabold text-slate-900">Sans Ordena</h3>
+                </div>
+                <p className="text-xs text-slate-500">
+                  Les frictions habituelles du service traditionnel en restauration.
+                </p>
+
+                <ul className="space-y-4 pt-4 border-t border-slate-200/80">
+                  <li className="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                    <div className="p-1 rounded-md bg-rose-50 text-rose-500 shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 stroke-[2.5]" />
                     </div>
-                    <h4 className="font-bold text-slate-900 text-sm">Commande en direct</h4>
-                    <p className="text-slate-500 leading-relaxed">
-                      Consultation de la carte, choix des plats, ajouts de compléments et envoi direct en cuisine.
-                    </p>
-                  </div>
-                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-sm">
-                      3
-                    </div>
-                    <h4 className="font-bold text-slate-900 text-sm">Suivi & Addition</h4>
-                    <p className="text-slate-500 leading-relaxed">
-                      Affiche le statut de préparation, permet d&apos;appeler un serveur ou d&apos;appeler la note.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "server" && (
-              <div className="space-y-6 animate-in fade-in">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <h3 className="font-extrabold text-xl text-slate-900 flex items-center gap-2">
-                    <ConciergeBell className="w-5 h-5 text-blue-600" /> Console Salle & Serveur
-                  </h3>
-                  <Link
-                    href="/staff/floor-map"
-                    className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1"
-                  >
-                    Ouvrir le plan de salle →
-                  </Link>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Supervisez en un coup d&apos;œil toutes les tables du restaurant. Les couleurs dynamiques vous indiquent l&apos;état instantané de la salle.
-                </p>
-                <div className="p-4 bg-blue-50/80 border border-blue-200/80 rounded-2xl text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="font-bold text-blue-900">Identifiants Démo Serveur :</span>
-                  <span className="font-mono text-blue-800 bg-white px-3 py-1.5 rounded-lg border border-blue-200 shadow-2xs">
-                    serveur@bistro.com / serveurpassword123
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "kitchen" && (
-              <div className="space-y-6 animate-in fade-in">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <h3 className="font-extrabold text-xl text-slate-900 flex items-center gap-2">
-                    <ChefHat className="w-5 h-5 text-amber-600" /> Écran Kanban Cuisine
-                  </h3>
-                  <Link
-                    href="/staff/kitchen"
-                    className="text-xs font-bold text-amber-600 hover:underline flex items-center gap-1"
-                  >
-                    Ouvrir l&apos;écran cuisine →
-                  </Link>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Vue optimisée pour l&apos;équipe en cuisine. Les tickets s&apos;organisent automatiquement selon l&apos;heure d&apos;arrivée et les priorités.
-                </p>
-                <div className="p-4 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="font-bold text-amber-900">Identifiants Démo Cuisine :</span>
-                  <span className="font-mono text-amber-800 bg-white px-3 py-1.5 rounded-lg border border-amber-200 shadow-2xs">
-                    cuisine@bistro.com / cuisinepassword123
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "admin" && (
-              <div className="space-y-6 animate-in fade-in">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                  <h3 className="font-extrabold text-xl text-slate-900 flex items-center gap-2">
-                    <Building2 className="w-5 h-5 text-purple-600" /> Administration & Super Admin
-                  </h3>
-                  <Link
-                    href="/admin/dashboard"
-                    className="text-xs font-bold text-purple-600 hover:underline flex items-center gap-1"
-                  >
-                    Ouvrir le dashboard admin →
-                  </Link>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Mise à jour immédiate de la carte, des indisponibilités de produits, édition des QR codes et rapports d&apos;activité détaillés.
-                </p>
-                <div className="p-4 bg-purple-50/80 border border-purple-200/80 rounded-2xl text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="font-bold text-purple-900">Identifiants Démo Manager :</span>
-                  <span className="font-mono text-purple-800 bg-white px-3 py-1.5 rounded-lg border border-purple-200 shadow-2xs">
-                    admin@bistro.com / bistropassword123
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Pricing Section */}
-      <section id="pricing" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-              Tarification Clairs
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4">
-              Zéro commission sur vos ventes
-            </h2>
-            <p className="mt-4 text-slate-600 text-base sm:text-lg">
-              Choisissez la formule adaptée au volume de votre établissement.
-            </p>
-          </div>
-
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            {/* Plan 1 */}
-            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-200 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Starter</span>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900">49$</span>
-                  <span className="text-xs text-slate-500">/ mois</span>
-                </div>
-                <p className="text-xs text-slate-500">Idéal pour les petits établissements jusqu&apos;à 15 tables.</p>
-                <ul className="space-y-3 text-xs text-slate-600 pt-4 border-t border-slate-200">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Jusqu&apos;à 15 tables & QR codes
+                    <span>Serveurs débordés aux heures de rush</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Écran Cuisine & Serveur
+                  <li className="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                    <div className="p-1 rounded-md bg-rose-50 text-rose-500 shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Clients qui attendent pour commander ou payer</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Support standard
+                  <li className="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                    <div className="p-1 rounded-md bg-rose-50 text-rose-500 shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Aucune vue sur les plats qui marchent vraiment</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-slate-700 font-medium">
+                    <div className="p-1 rounded-md bg-rose-50 text-rose-500 shrink-0 mt-0.5">
+                      <X className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Erreurs de commande à l&apos;oral</span>
                   </li>
                 </ul>
               </div>
-              <Link
-                href="/login"
-                className="w-full py-3.5 bg-white border border-slate-300 hover:border-emerald-500 text-slate-800 font-bold rounded-xl text-xs text-center transition-all block shadow-2xs"
-              >
-                Démarrer l&apos;essai gratuit
-              </Link>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 text-xs text-slate-500 italic">
+                Résultat : rotation de tables ralentie, stress en salle et perte de revenus aux heures de pointe.
+              </div>
             </div>
 
-            {/* Plan 2 - Featured */}
-            <div className="p-8 bg-slate-900 text-white rounded-3xl border-2 border-emerald-500 flex flex-col justify-between space-y-6 relative shadow-2xl scale-[1.02]">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald-500 text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-full shadow-md">
+            {/* Colonne 2: Avec Ordena */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-emerald-50/40 border-2 border-emerald-500/60 shadow-lg shadow-emerald-600/5 flex flex-col justify-between space-y-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 px-4 py-1.5 bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-wider rounded-bl-2xl">
                 Recommandé
               </div>
-              <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Pro Restaurant</span>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-white">89$</span>
-                  <span className="text-xs text-slate-400">/ mois</span>
-                </div>
-                <p className="text-xs text-slate-300">Pour les brasseries et restaurants à fort volume.</p>
-                <ul className="space-y-3 text-xs text-slate-300 pt-4 border-t border-slate-800">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400" /> Tables & QR codes illimités
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400" /> Dashboard Analytics & Chiffre d&apos;affaires
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400" /> Alertes sonores temps réel
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400" /> Support prioritaire 7j/7
-                  </li>
-                </ul>
-              </div>
-              <Link
-                href="/login"
-                className="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs text-center transition-all block shadow-lg shadow-emerald-500/25"
-              >
-                Tester gratuitement 14 jours
-              </Link>
-            </div>
 
-            {/* Plan 3 */}
-            <div className="p-8 bg-slate-50 rounded-3xl border border-slate-200 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Multi-Enseignes</span>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900">Sur devis</span>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
+                    <Check className="w-4 h-4 stroke-[3]" />
+                  </div>
+                  <h3 className="text-xl font-extrabold text-slate-900">Avec Ordena</h3>
                 </div>
-                <p className="text-xs text-slate-500">Pour les groupes de restauration et franchises multi-tenant.</p>
-                <ul className="space-y-3 text-xs text-slate-600 pt-4 border-t border-slate-200">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Console Super-Admin centralisée
+                <p className="text-xs text-slate-600">
+                  Un flux continu et automatisé de la prise de commande à l&apos;addition.
+                </p>
+
+                <ul className="space-y-4 pt-4 border-t border-emerald-200/60">
+                  <li className="flex items-start gap-3 text-sm text-slate-900 font-semibold">
+                    <div className="p-1 rounded-md bg-emerald-500 text-white shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Commande passée en moins de 30 secondes depuis la table</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Gestion multi-établissements
+                  <li className="flex items-start gap-3 text-sm text-slate-900 font-semibold">
+                    <div className="p-1 rounded-md bg-emerald-500 text-white shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Cuisine et service synchronisés en temps réel</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600" /> Account Manager dédié
+                  <li className="flex items-start gap-3 text-sm text-slate-900 font-semibold">
+                    <div className="p-1 rounded-md bg-emerald-500 text-white shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Tableau de bord sur vos plats les plus vendus et les mieux notés</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-sm text-slate-900 font-semibold">
+                    <div className="p-1 rounded-md bg-emerald-500 text-white shrink-0 mt-0.5">
+                      <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <span>Zéro erreur, zéro carnet papier</span>
                   </li>
                 </ul>
               </div>
-              <Link
-                href="/login"
-                className="w-full py-3.5 bg-white border border-slate-300 hover:border-emerald-500 text-slate-800 font-bold rounded-xl text-xs text-center transition-all block shadow-2xs"
-              >
-                Contacter l&apos;équipe commerciale
-              </Link>
+
+              <div className="p-3.5 rounded-2xl bg-white border border-emerald-200 text-xs font-semibold text-emerald-900">
+                Gain mesuré : +28% de rotation de tables et des pourboires en hausse pour votre personnel.
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. Call to Action Banner */}
-      <section className="py-20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <h2 className="text-3xl sm:text-5xl font-black tracking-tight">
-            Prêt à moderniser le service de votre restaurant ?
+      {/* 4. Section Fonctionnalités (Grille de 6 cartes avec icônes) */}
+      <section id="fonctionnalites" className="py-20 sm:py-28 bg-[#fafafa]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2 block">
+              Fonctionnalités Clés
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Tout ce dont votre restaurant a besoin
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-slate-600">
+              Des outils simples, puissants et connectés pour piloter votre salle et régaler vos clients.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Carte 1 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <QrCode className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Commande par QR code</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Le client scanne, commande, c&apos;est parti. Aucun téléchargement requis, compatible avec tous les smartphones.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Sans friction client</span>
+              </div>
+            </div>
+
+            {/* Carte 2 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <UtensilsCrossed className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Cuisine & service en temps réel</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Chaque commande arrive instantanément là où il faut. L&apos;écran cuisine KDS classe par priorité sans aucun retard.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Synchronisation live</span>
+              </div>
+            </div>
+
+            {/* Carte 3 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Receipt className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Additions & paiement</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Le client demande l&apos;addition en un clic, le serveur encaisse rapidement ou le règlement se fait en direct.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Zéro attente en fin de repas</span>
+              </div>
+            </div>
+
+            {/* Carte 4 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Multi-établissements</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Gérez plusieurs restaurants depuis un seul compte. Basculez d&apos;une enseigne à l&apos;autre en un clic sans friction.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Architecture Multi-Tenant</span>
+              </div>
+            </div>
+
+            {/* Carte 5 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <BarChart3 className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Tableau de bord analytique</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Chiffre d&apos;affaires, heures de rush, plats les mieux notés. Prenez des décisions rentables basées sur vos chiffres.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Indicateurs en direct</span>
+              </div>
+            </div>
+
+            {/* Carte 6 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-500/30 transition-all group flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Star className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900">Notation des plats</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Vos clients notent, vous savez quoi mettre en avant. Optimisez votre carte en continu selon les retours vérifiés.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-slate-100 flex items-center text-xs font-bold text-emerald-600">
+                <span>Satisfaction client mesurée</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Section "Comment ça marche" (4 étapes numérotées, style nordevagency) */}
+      <section id="comment-ca-marche" className="py-20 sm:py-28 bg-white border-y border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-24">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-2 block">
+              Processus simple
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Comment ça marche
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-slate-600">
+              Démarrez en quelques minutes, sans matériel spécifique ni formation complexe.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+            {/* Step 01 */}
+            <div className="space-y-4 p-6 rounded-3xl bg-slate-50 border border-slate-200/70 relative">
+              <span className="text-4xl sm:text-5xl font-black text-emerald-600 block tracking-tight">
+                01.
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900">Créez votre compte</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                2 minutes, sans carte bancaire. Vous obtenez un espace restaurant dédié et sécurisé.
+              </p>
+            </div>
+
+            {/* Step 02 */}
+            <div className="space-y-4 p-6 rounded-3xl bg-slate-50 border border-slate-200/70 relative">
+              <span className="text-4xl sm:text-5xl font-black text-emerald-600 block tracking-tight">
+                02.
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900">Ajoutez votre menu</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Catégories, plats, prix, photos. Modifiez vos disponibilités et tarifs en temps réel.
+              </p>
+            </div>
+
+            {/* Step 03 */}
+            <div className="space-y-4 p-6 rounded-3xl bg-slate-50 border border-slate-200/70 relative">
+              <span className="text-4xl sm:text-5xl font-black text-emerald-600 block tracking-tight">
+                03.
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900">Imprimez vos QR codes</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Un par table, générés automatiquement. Téléchargez-les en PDF prêts pour chevalets ou stickers.
+              </p>
+            </div>
+
+            {/* Step 04 */}
+            <div className="space-y-4 p-6 rounded-3xl bg-slate-50 border border-slate-200/70 relative">
+              <span className="text-4xl sm:text-5xl font-black text-emerald-600 block tracking-tight">
+                04.
+              </span>
+              <h3 className="text-lg font-extrabold text-slate-900">Vos clients commandent</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Vous supervisez tout depuis votre tableau de bord. Cuisine, salle et encaissement restent synchronisés.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Section "Conçu pour les restaurants" */}
+      <section className="py-20 sm:py-28 bg-[#fafafa]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          <div className="inline-flex p-3 rounded-2xl bg-emerald-100 text-emerald-800 mb-2">
+            <UtensilsCrossed className="w-8 h-8 text-emerald-600" />
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight max-w-3xl mx-auto leading-tight">
+            Conçu pour les restaurants qui veulent un service fluide, de la commande à l&apos;addition.
           </h2>
-          <p className="mt-4 text-emerald-100 text-base max-w-xl mx-auto">
-            Testez immédiatement notre démo interactive ou configurez votre compte en moins de 5 minutes.
+
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            Offrez à vos clients une expérience moderne et sans friction, tout en libérant votre personnel pour ce qui compte vraiment : l&apos;accueil, le conseil et le plaisir du service.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+
+          <div className="pt-4 flex flex-wrap justify-center gap-4">
             <Link
-              href="/login"
-              className="px-8 py-4 bg-white text-emerald-950 font-bold rounded-xl text-sm shadow-xl hover:bg-emerald-50 active:scale-95 transition-all"
+              href="/signup"
+              className="px-8 py-4 rounded-full text-base font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 active:scale-95 transition-all"
             >
-              Se Connecter & Tester
+              Démarrer gratuitement maintenant
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 7. Footer */}
-      <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-800 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">
-              <UtensilsCrossed className="w-4 h-4" />
+      {/* 7. CTA Final */}
+      <section className="py-20 sm:py-24 bg-slate-900 text-white text-center relative overflow-hidden">
+        {/* Subtle glow circle */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-emerald-600/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            Prêt à moderniser le service de votre restaurant ?
+          </h2>
+
+          <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto font-normal leading-relaxed">
+            Créez votre compte en moins de 2 minutes et testez immédiatement la commande QR code avec vos premières tables.
+          </p>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/signup"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-xl shadow-emerald-500/20 active:scale-95 transition-all"
+            >
+              Créer mon compte gratuitement
+            </Link>
+            <Link
+              href="/login"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-semibold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 active:scale-95 transition-all"
+            >
+              Se Connecter
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Footer */}
+      <footer className="bg-slate-950 text-slate-400 py-14 border-t border-slate-800 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">
+                <UtensilsCrossed className="w-4 h-4" />
+              </div>
+              <span className="text-white font-bold text-base tracking-tight">Ordena</span>
+            </Link>
+
+            <nav className="flex flex-wrap items-center gap-6 text-xs font-semibold text-slate-400">
+              <a href="#comparatif" className="hover:text-white transition-colors">
+                Sans / Avec Ordena
+              </a>
+              <a href="#fonctionnalites" className="hover:text-white transition-colors">
+                Fonctionnalités
+              </a>
+              <a href="#comment-ca-marche" className="hover:text-white transition-colors">
+                Comment ça marche
+              </a>
+              <Link href="/login" className="hover:text-white transition-colors">
+                Connexion Staff
+              </Link>
+              <Link href="/signup" className="hover:text-white transition-colors">
+                Créer un compte
+              </Link>
+            </nav>
+          </div>
+
+          <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+            <p>© {new Date().getFullYear()} Ordena. Plateforme de commande en salle par QR Code. Tous droits réservés.</p>
+            <div className="flex items-center gap-4">
+              <span>Mentions légales</span>
+              <span>•</span>
+              <span>Politique de confidentialité</span>
+              <span>•</span>
+              <span>Sécurité des données</span>
             </div>
-            <span className="text-white font-bold text-sm tracking-tight">Ordena SaaS Multi-Tenant</span>
           </div>
-
-          <div className="flex flex-wrap items-center gap-6">
-            <Link href="/login" className="hover:text-white transition-colors">Connexion Staff</Link>
-            <Link href="/admin/tables" className="hover:text-white transition-colors">Gestion QR</Link>
-            <Link href="/staff/floor-map" className="hover:text-white transition-colors">Plan de Salle</Link>
-            <Link href="/super-admin/dashboard" className="hover:text-white transition-colors">Super Admin</Link>
-          </div>
-
-          <p>© {new Date().getFullYear()} Ordena. Tous droits réservés.</p>
         </div>
       </footer>
     </div>

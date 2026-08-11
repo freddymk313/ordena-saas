@@ -85,3 +85,13 @@ NEXTAUTH_URL=http://localhost:3000
 
 mongodb+srv://20mm313_db_user:3QPkR4jIFYqbrBi1@cluster0.w3byejd.mongodb.net/?appName=Cluster0
 
+////////////////////////////////////////////////////////
+
+
+admin@bistro.com | bistropassword123
+
+serveur@bistro.com | serveurpassword123
+
+cuisine@bistro.com | cuisinepassword123
+
+admin@ordena.com | adminpassword123

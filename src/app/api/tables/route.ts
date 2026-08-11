@@ -16,21 +16,7 @@ export async function GET() {
     const tenantId = session.user.activeTenantId || session.user.tenantId;
     const query = tenantId ? { tenantId } : {};
 
-    let tables = await Table.find(query).sort({ label: 1 }).lean();
-
-    // Seed default tables if none exist for demo/testing
-    if (tables.length === 0 && tenantId) {
-      const defaultTables = [
-        { tenantId, label: "Table 1", qrToken: crypto.randomBytes(8).toString("hex"), status: "free" },
-        { tenantId, label: "Table 2", qrToken: crypto.randomBytes(8).toString("hex"), status: "occupied" },
-        { tenantId, label: "Table 3", qrToken: crypto.randomBytes(8).toString("hex"), status: "service_requested" },
-        { tenantId, label: "Table 4", qrToken: crypto.randomBytes(8).toString("hex"), status: "bill_requested" },
-        { tenantId, label: "Table 5", qrToken: crypto.randomBytes(8).toString("hex"), status: "free" },
-        { tenantId, label: "Table 6", qrToken: crypto.randomBytes(8).toString("hex"), status: "occupied" },
-      ];
-      await Table.insertMany(defaultTables);
-      tables = await Table.find(query).sort({ label: 1 }).lean();
-    }
+    const tables = await Table.find(query).sort({ label: 1 }).lean();
 
     return NextResponse.json(tables);
   } catch (error) {

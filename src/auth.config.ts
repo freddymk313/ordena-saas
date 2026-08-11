@@ -18,7 +18,41 @@ export const authConfig: NextAuthConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const role = auth?.user?.role;
+      const onboardingCompleted = auth?.user?.onboardingCompleted;
       const pathname = nextUrl.pathname;
+
+      // Unauthenticated access to onboarding or admin/staff
+      if (pathname.startsWith("/onboarding")) {
+        if (!isLoggedIn) return false;
+        if (role !== "restaurant_admin") {
+          if (role === "super_admin") {
+            return Response.redirect(new URL("/super-admin/dashboard", nextUrl));
+          }
+          return Response.redirect(new URL("/staff/server", nextUrl));
+        }
+        if (onboardingCompleted === true) {
+          return Response.redirect(new URL("/admin/dashboard", nextUrl));
+        }
+        return true;
+      }
+
+      if (pathname === "/login" || pathname === "/signup") {
+        if (isLoggedIn) {
+          if (role === "super_admin") {
+            return Response.redirect(new URL("/super-admin/dashboard", nextUrl));
+          } else if (role === "restaurant_admin") {
+            if (onboardingCompleted === false) {
+              return Response.redirect(new URL("/onboarding", nextUrl));
+            }
+            return Response.redirect(new URL("/admin/dashboard", nextUrl));
+          } else if (role === "server") {
+            return Response.redirect(new URL("/staff/server", nextUrl));
+          } else if (role === "kitchen") {
+            return Response.redirect(new URL("/staff/kitchen", nextUrl));
+          }
+        }
+        return true;
+      }
 
       if (pathname.startsWith("/super-admin")) {
         if (!isLoggedIn) return false;
@@ -32,6 +66,9 @@ export const authConfig: NextAuthConfig = {
 
       if (pathname.startsWith("/admin")) {
         if (!isLoggedIn) return false;
+        if (role === "restaurant_admin" && onboardingCompleted === false) {
+          return Response.redirect(new URL("/onboarding", nextUrl));
+        }
         return role === "restaurant_admin" || role === "super_admin";
       }
 
@@ -52,11 +89,17 @@ export const authConfig: NextAuthConfig = {
           : user.tenantId
           ? String(user.tenantId)
           : null;
+        token.onboardingCompleted = (user as { onboardingCompleted?: boolean }).onboardingCompleted ?? false;
       }
 
-      // Allow super_admin to update activeTenantId dynamically in session
-      if (trigger === "update" && session?.activeTenantId !== undefined) {
-        token.activeTenantId = session.activeTenantId;
+      // Allow updating session fields dynamically (e.g. switch-tenant, complete onboarding)
+      if (trigger === "update") {
+        if (session?.activeTenantId !== undefined) {
+          token.activeTenantId = session.activeTenantId;
+        }
+        if (session?.onboardingCompleted !== undefined) {
+          token.onboardingCompleted = session.onboardingCompleted;
+        }
       }
 
       return token;
@@ -67,6 +110,7 @@ export const authConfig: NextAuthConfig = {
         session.user.role = token.role as UserRole;
         session.user.tenantId = token.tenantId as string | null;
         session.user.activeTenantId = token.activeTenantId as string | null;
+        session.user.onboardingCompleted = token.onboardingCompleted as boolean;
       }
       return session;
     },

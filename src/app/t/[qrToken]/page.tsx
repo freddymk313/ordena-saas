@@ -76,7 +76,19 @@ export default function ClientTablePage({
   const [loadingSession, setLoadingSession] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
   const [table, setTable] = useState<{ _id: string; label: string; qrToken: string; status: string } | null>(null);
-  const [tenant, setTenant] = useState<{ _id: string; name: string; logoUrl?: string; brandColor?: string } | null>(null);
+  const [tenant, setTenant] = useState<{
+    _id: string;
+    name: string;
+    logoUrl?: string;
+    brandColor?: string;
+    currency?: string;
+    phone?: string;
+    address?: string;
+    taxRate?: number;
+    enableMobileOrders?: boolean;
+    enableCallServer?: boolean;
+    enableSound?: boolean;
+  } | null>(null);
 
   // Menu data
   const [categories, setCategories] = useState<CategoryData[]>([]);
@@ -107,6 +119,9 @@ export default function ClientTablePage({
   const [isRequestingBill, setIsRequestingBill] = useState(false);
 
   const brandColor = tenant?.brandColor || "#059669";
+  const currency = tenant?.currency || "€";
+  const enableMobileOrders = tenant?.enableMobileOrders ?? true;
+  const enableCallServer = tenant?.enableCallServer ?? true;
 
   // 1. Initialize Table Session & Cookie
   const initSession = useCallback(async () => {
@@ -539,42 +554,44 @@ export default function ClientTablePage({
                         {item.description}
                       </p>
                       <span className="font-extrabold text-gray-900 text-xs sm:text-sm mt-1.5 block">
-                        {item.price.toFixed(2)} €
+                        {item.price.toFixed(2)} {currency}
                       </span>
                     </div>
 
                     {/* Add / Quantity Buttons */}
-                    <div className="shrink-0 flex items-center">
-                      {qty > 0 ? (
-                        <div className="flex items-center bg-gray-100 rounded-xl p-1 gap-1 border border-gray-200">
-                          <button
-                            onClick={() => updateQuantity(item._id, -1)}
-                            className="w-8 h-8 rounded-lg bg-white text-gray-800 flex items-center justify-center shadow-2xs font-bold active:scale-90 transition-transform"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-                          <span className="font-extrabold text-xs min-w-[18px] text-center">
-                            {qty}
-                          </span>
+                    {enableMobileOrders && (
+                      <div className="shrink-0 flex items-center">
+                        {qty > 0 ? (
+                          <div className="flex items-center bg-gray-100 rounded-xl p-1 gap-1 border border-gray-200">
+                            <button
+                              onClick={() => updateQuantity(item._id, -1)}
+                              className="w-8 h-8 rounded-lg bg-white text-gray-800 flex items-center justify-center shadow-2xs font-bold active:scale-90 transition-transform"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="font-extrabold text-xs min-w-[18px] text-center">
+                              {qty}
+                            </span>
+                            <button
+                              onClick={() => updateQuantity(item._id, 1)}
+                              className="w-8 h-8 rounded-lg text-white flex items-center justify-center shadow-2xs font-bold active:scale-90 transition-transform"
+                              style={{ backgroundColor: brandColor }}
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ) : (
                           <button
                             onClick={() => updateQuantity(item._id, 1)}
-                            className="w-8 h-8 rounded-lg text-white flex items-center justify-center shadow-2xs font-bold active:scale-90 transition-transform"
+                            className="px-3 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-transform active:scale-95"
                             style={{ backgroundColor: brandColor }}
                           >
                             <Plus className="w-3.5 h-3.5" />
+                            <span>Ajouter</span>
                           </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => updateQuantity(item._id, 1)}
-                          className="px-3 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-1 shadow-2xs transition-transform active:scale-95"
-                          style={{ backgroundColor: brandColor }}
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          <span>Ajouter</span>
-                        </button>
-                      )}
-                    </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })
@@ -610,7 +627,7 @@ export default function ClientTablePage({
               <div className="bg-purple-50 rounded-xl p-3 border border-purple-100 flex items-center justify-between text-xs font-bold text-purple-900">
                 <div className="flex items-center gap-1.5">
                   <Receipt className="w-4 h-4 text-purple-600" />
-                  <span>Addition ({bill.totalAmount.toFixed(2)} €)</span>
+                  <span>Addition ({bill.totalAmount.toFixed(2)} {currency})</span>
                 </div>
                 <span className="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 text-[10px]">
                   {bill.status === "pending"
@@ -648,7 +665,7 @@ export default function ClientTablePage({
                     <span className="font-semibold text-gray-900 truncate">{item.name}</span>
                   </div>
                   <span className="font-bold text-gray-700 shrink-0">
-                    {(item.price * item.quantity).toFixed(2)} €
+                    {(item.price * item.quantity).toFixed(2)} {currency}
                   </span>
                 </div>
               ))}
@@ -663,7 +680,7 @@ export default function ClientTablePage({
                     0
                   )
                   .toFixed(2)}{" "}
-                €
+                {currency}
               </span>
             </div>
           </div>
@@ -780,20 +797,22 @@ export default function ClientTablePage({
       {/* FIXED MOBILE BOTTOM ACTIONS BAR (Call Server / Request Bill) */}
       {orders.length > 0 && activeView !== "rating" && activeView !== "rated_thank_you" && (
         <div className="fixed bottom-0 left-0 right-0 z-40 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] bg-white/95 backdrop-blur-md border-t border-gray-200/80 shadow-lg max-w-md mx-auto">
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => handleTriggerServiceRequest("call_server")}
-              disabled={isCallingServer}
-              className="py-3 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs border border-amber-200 transition-all flex items-center justify-center gap-1.5 active:scale-95"
-            >
-              <Bell className="w-4 h-4 text-amber-600 animate-bounce" />
-              <span>{isCallingServer ? "Envoi..." : "Appeler serveur"}</span>
-            </button>
+          <div className={`grid ${enableCallServer ? "grid-cols-2" : "grid-cols-1"} gap-2`}>
+            {enableCallServer && (
+              <button
+                onClick={() => handleTriggerServiceRequest("call_server")}
+                disabled={isCallingServer}
+                className="py-3 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs border border-amber-200 transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
+              >
+                <Bell className="w-4 h-4 text-amber-600 animate-bounce" />
+                <span>{isCallingServer ? "Envoi..." : "Appeler serveur"}</span>
+              </button>
+            )}
 
             <button
               onClick={() => handleTriggerServiceRequest("request_bill")}
               disabled={isRequestingBill}
-              className="py-3 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs border border-purple-200 transition-all flex items-center justify-center gap-1.5 active:scale-95"
+              className="py-3 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs border border-purple-200 transition-all flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
             >
               <Receipt className="w-4 h-4 text-purple-600" />
               <span>{isRequestingBill ? "Envoi..." : "L'addition"}</span>
@@ -817,7 +836,7 @@ export default function ClientTablePage({
               <span>Voir mon panier</span>
             </div>
             <div className="flex items-center gap-1">
-              <span>{cartTotalAmount.toFixed(2)} €</span>
+              <span>{cartTotalAmount.toFixed(2)} {currency}</span>
               <ChevronRight className="w-4 h-4" />
             </div>
           </button>
@@ -868,7 +887,7 @@ export default function ClientTablePage({
                       <div className="min-w-0 flex-1">
                         <h4 className="font-bold text-gray-900 truncate">{item.name}</h4>
                         <span className="text-gray-500 font-medium">
-                          {(item.price * qty).toFixed(2)} €
+                          {(item.price * qty).toFixed(2)} {currency}
                         </span>
                       </div>
 
@@ -911,7 +930,7 @@ export default function ClientTablePage({
 
                 <div className="flex items-center justify-between text-xs sm:text-sm font-extrabold text-gray-900 pt-1">
                   <span>Total à payer</span>
-                  <span>{cartTotalAmount.toFixed(2)} €</span>
+                  <span>{cartTotalAmount.toFixed(2)} {currency}</span>
                 </div>
 
                 <button

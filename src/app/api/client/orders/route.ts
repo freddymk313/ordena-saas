@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Update table with currentOrderId and status occupied
-    table.currentOrderId = newOrder._id as any;
+    table.currentOrderId = newOrder._id;
     table.status = "occupied";
     await table.save();
 
